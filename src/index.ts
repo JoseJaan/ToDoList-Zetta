@@ -1,6 +1,9 @@
 import express from 'express';
-import sequelize from './config/database';
 import dotenv from 'dotenv';
+import sequelize from './config/database';
+import './models/User';  
+import './models/Task';
+import { User, Task } from './models'; 
 
 dotenv.config();
 
@@ -14,7 +17,7 @@ app.get('/', (req, res) => {
 sequelize.authenticate()
   .then(() => {
     console.log('Connected to database!');
-    return sequelize.sync();
+    return sequelize.sync({ alter: true });
   })
   .then(() => {
     app.listen(port, () => {
