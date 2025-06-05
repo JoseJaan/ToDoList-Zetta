@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { UserService } from '../services/UserService';
+import { UserService } from '../services/userService';
 import { UserValidation } from '../utils/userValidation';
 
 export class UserController {
