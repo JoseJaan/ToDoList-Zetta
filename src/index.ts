@@ -1,18 +1,23 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import sequelize from './config/database';
-import './models/User';  
+import './models/User';
 import './models/Task';
-import { User, Task } from './models'; 
+import { User, Task } from './models';
+import userRoutes from './routes/userRoutes';
 
 dotenv.config();
 
 const app = express();
 const port = 3000;
 
+app.use(express.json());
+
 app.get('/', (req, res) => {
   res.status(200).send("Server is running!");
 });
+
+app.use('/api', userRoutes);
 
 sequelize.authenticate()
   .then(() => {
