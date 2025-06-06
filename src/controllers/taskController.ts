@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { TaskService } from '../services/taskService';
 import { TaskValidation } from '../utils/taskValidation';
-import { TaskStatus } from '../models/Task';
+import { TaskStatus } from '../models';
 
 export class TaskController {
   private taskService: TaskService;
