@@ -4,7 +4,7 @@ import sequelize from './config/database';
 import './models/User';
 import './models/Task';
 import { User, Task } from './models';
-import userRoutes from './routes/userRoutes';
+import routes from './routes'
 
 dotenv.config();
 
@@ -17,7 +17,7 @@ app.get('/', (req, res) => {
   res.status(200).send("Server is running!");
 });
 
-app.use('/api', userRoutes);
+app.use('/api', routes);
 
 sequelize.authenticate()
   .then(() => {

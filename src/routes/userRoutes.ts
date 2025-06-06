@@ -1,13 +1,17 @@
 import { Router } from 'express';
 import { UserController } from '../controllers/userController';
+import { TaskController } from '../controllers/taskController';
 
 const router = Router();
 const userController = new UserController();
+const taskController = new TaskController();
 
-router.post('/users', userController.create.bind(userController));
-router.get('/users', userController.getAll.bind(userController));
-router.get('/users/:id', userController.getById.bind(userController));
-router.put('/users/:id', userController.update.bind(userController));
-router.delete('/users/:id', userController.delete.bind(userController));
+router.post('/', userController.create.bind(userController));
+router.get('/', userController.getAll.bind(userController));
+router.get('/:id', userController.getById.bind(userController));
+router.put('/:id', userController.update.bind(userController));
+router.delete('/:id', userController.delete.bind(userController));
+
+router.get('/:userId/tasks', taskController.getByUserId.bind(taskController));
 
 export default router;

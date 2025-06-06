@@ -1,5 +1,5 @@
 import User from './User';
-import Task from './Task';
+import Task, { TaskStatus } from './Task';
 
 User.hasMany(Task, {
   foreignKey: 'userId',
@@ -11,4 +11,4 @@ Task.belongsTo(User, {
   as: 'user'
 });
 
-export { User, Task };
+export { User, Task, TaskStatus };
