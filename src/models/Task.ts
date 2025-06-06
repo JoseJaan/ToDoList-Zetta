@@ -7,7 +7,7 @@ export enum TaskStatus {
 }
 
 interface TaskAttributes {
-  id: number;
+  id: string;
   name: string;
   description: string;
   status: TaskStatus;
@@ -19,7 +19,7 @@ interface TaskAttributes {
 interface TaskCreationAttributes extends Optional<TaskAttributes, 'id'> {}
 
 class Task extends Model<TaskAttributes, TaskCreationAttributes> implements TaskAttributes {
-  public id!: number;
+  public id!: string;
   public name!: string;
   public description!: string;
   public status!: TaskStatus;
@@ -31,8 +31,8 @@ class Task extends Model<TaskAttributes, TaskCreationAttributes> implements Task
 Task.init(
   {
     id: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4, 
       primaryKey: true,
     },
     name: {

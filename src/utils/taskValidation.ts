@@ -17,7 +17,6 @@ export class TaskValidation {
   static validateCreateTask(data: any): { isValid: boolean; errors: string[] } {
     const errors: string[] = [];
 
-    // Campos obrigatórios
     if (!data.name) {
       errors.push('Nome da tarefa é obrigatório');
     }
