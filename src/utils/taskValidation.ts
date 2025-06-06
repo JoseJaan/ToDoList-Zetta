@@ -29,7 +29,6 @@ export class TaskValidation {
       errors.push('ID do usuário é obrigatório');
     }
 
-    // Validação de tipos e formatos
     if (data.name && (typeof data.name !== 'string' || data.name.trim().length < 1 || data.name.trim().length > 200)) {
       errors.push('Nome deve ter entre 1 e 200 caracteres');
     }
@@ -46,7 +45,6 @@ export class TaskValidation {
       errors.push('ID do usuário deve ter um formato válido');
     }
 
-    // Verificar campos extras não permitidos
     const allowedFields = ['name', 'description', 'status', 'userId'];
     const extraFields = Object.keys(data).filter(key => !allowedFields.includes(key));
     if (extraFields.length > 0) {
@@ -62,12 +60,10 @@ export class TaskValidation {
   static validateUpdateTask(data: any): { isValid: boolean; errors: string[] } {
     const errors: string[] = [];
 
-    // Pelo menos um campo deve ser fornecido
     if (!data.name && !data.description && !data.status) {
       errors.push('Pelo menos um campo deve ser fornecido para atualização');
     }
 
-    // Validação de tipos e formatos (apenas se os campos estiverem presentes)
     if (data.name && (typeof data.name !== 'string' || data.name.trim().length < 1 || data.name.trim().length > 200)) {
       errors.push('Nome deve ter entre 1 e 200 caracteres');
     }
@@ -80,7 +76,6 @@ export class TaskValidation {
       errors.push('Status deve ser "pendente" ou "concluida"');
     }
 
-    // Verificar campos extras não permitidos
     const allowedFields = ['name', 'description', 'status'];
     const extraFields = Object.keys(data).filter(key => !allowedFields.includes(key));
     if (extraFields.length > 0) {
@@ -98,7 +93,6 @@ export class TaskValidation {
       return { isValid: false, error: 'ID da tarefa é obrigatório' };
     }
 
-    // Validar se é um número válido (ID da tarefa é integer)
     const taskId = parseInt(id, 10);
     if (isNaN(taskId) || taskId <= 0) {
       return { isValid: false, error: 'ID da tarefa deve ser um número válido' };
