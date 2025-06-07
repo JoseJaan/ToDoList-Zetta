@@ -76,6 +76,10 @@ export class TaskValidation {
       errors.push('Status deve ser "pendente" ou "concluida"');
     }
 
+    if (data.userId !== undefined) {
+      errors.push('Não é possível alterar o usuário responsável pela tarefa');
+    }
+
     const allowedFields = ['name', 'description', 'status'];
     const extraFields = Object.keys(data).filter(key => !allowedFields.includes(key));
     if (extraFields.length > 0) {

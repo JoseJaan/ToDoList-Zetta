@@ -1,10 +1,11 @@
 import express from 'express';
+import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 import sequelize from './config/database';
 import './models/User';
 import './models/Task';
 import { User, Task } from './models';
-import routes from './routes'
+import routes from './routes';
 
 dotenv.config();
 
@@ -12,6 +13,7 @@ const app = express();
 const port = 3000;
 
 app.use(express.json());
+app.use(cookieParser()); 
 
 app.get('/', (req, res) => {
   res.status(200).send("Server is running!");
