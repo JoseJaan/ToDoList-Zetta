@@ -19,27 +19,48 @@ export class AuthMiddleware {
 
   authenticate = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-      const authHeader = req.headers.authorization;
+      let token: string | undefined;
 
-      const headerValidation = AuthValidation.validateAuthorizationHeader(authHeader);
-      
-      if (!headerValidation.isValid) {
+      if (req.cookies?.authToken) {
+        token = req.cookies.authToken;
+      } 
+      //Se não houver cookie, verifica o header Authorization
+      else if (req.headers.authorization) {
+        const authHeader = req.headers.authorization;
+        const headerValidation = AuthValidation.validateAuthorizationHeader(authHeader);
+       
+        if (!headerValidation.isValid) {
+          res.status(401).json({
+            error: 'Não autorizado',
+            message: headerValidation.error
+          });
+          return;
+        }
+        //Remove "Bearer "
+        token = authHeader.substring(7);
+      }
+
+      if (!token) {
         res.status(401).json({
           error: 'Não autorizado',
-          message: headerValidation.error
+          message: 'Token de acesso não fornecido'
         });
         return;
       }
-      //Remove "Bearer "
-      const token = authHeader!.substring(7); 
 
       const user = await this.authService.getUserFromToken(token);
-
       req.user = user;
-
       next();
     } catch (error: any) {
       console.error('Erro na autenticação:', error);
+
+      if (req.cookies?.authToken) {
+        res.clearCookie('authToken', {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === 'production',
+          sameSite: 'strict'
+        });
+      }
 
       if (error.message === 'Token expirado') {
         res.status(401).json({
@@ -48,7 +69,6 @@ export class AuthMiddleware {
         });
         return;
       }
-
       if (error.message === 'Token inválido') {
         res.status(401).json({
           error: 'Não autorizado',
@@ -56,7 +76,6 @@ export class AuthMiddleware {
         });
         return;
       }
-
       if (error.message === 'Usuário não encontrado') {
         res.status(401).json({
           error: 'Não autorizado',
@@ -64,7 +83,6 @@ export class AuthMiddleware {
         });
         return;
       }
-
       res.status(500).json({
         error: 'Erro interno do servidor',
         message: 'Erro na verificação de autenticação'
@@ -74,14 +92,19 @@ export class AuthMiddleware {
 
   optionalAuthenticate = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-      const authHeader = req.headers.authorization;
+      let token: string | undefined;
 
-      if (!authHeader || !authHeader.startsWith('Bearer ')) {
-        next();
-        return;
+      if (req.cookies?.authToken) {
+        token = req.cookies.authToken;
+      } 
+      else {
+        const authHeader = req.headers.authorization;
+        if (!authHeader || !authHeader.startsWith('Bearer ')) {
+          next();
+          return;
+        }
+        token = authHeader.substring(7);
       }
-
-      const token = authHeader.substring(7);
 
       if (token && token.trim().length > 0) {
         try {
@@ -89,9 +112,16 @@ export class AuthMiddleware {
           req.user = user;
         } catch (error) {
           console.warn('Token inválido em autenticação opcional:', error);
+          
+          if (req.cookies?.authToken) {
+            res.clearCookie('authToken', {
+              httpOnly: true,
+              secure: process.env.NODE_ENV === 'production',
+              sameSite: 'strict'
+            });
+          }
         }
       }
-
       next();
     } catch (error: any) {
       console.error('Erro na autenticação opcional:', error);
