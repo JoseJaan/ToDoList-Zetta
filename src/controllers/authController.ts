@@ -29,7 +29,6 @@ export class AuthController {
         token: result.token
       });
     } catch (error: any) {
-      console.error('Erro ao fazer login:', error);
 
       if (error.message === 'Credenciais inválidas') {
         res.status(401).json({
@@ -52,7 +51,6 @@ export class AuthController {
         message: 'Logout realizado com sucesso'
       });
     } catch (error: any) {
-      console.error('Erro ao fazer logout:', error);
 
       res.status(500).json({
         error: 'Erro interno do servidor',
@@ -71,7 +69,6 @@ export class AuthController {
         user: user
       });
     } catch (error: any) {
-      console.error('Erro ao obter dados do usuário:', error);
 
       res.status(500).json({
         error: 'Erro interno do servidor',

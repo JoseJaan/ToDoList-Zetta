@@ -1,4 +1,4 @@
-import jwt from 'jsonwebtoken';
+import { sign, SignOptions, verify, JwtPayload as JwtPayloadType, VerifyOptions } from 'jsonwebtoken';
 import { User } from '../models';
 
 export interface LoginRequest {
@@ -16,7 +16,7 @@ export class AuthService {
   private readonly jwtExpiresIn: string;
 
   constructor() {
-    this.jwtSecret = process.env.JWT_SECRET || 'your-secret-key';
+    this.jwtSecret = process.env.JWT_SECRET || 'secret-key';
     this.jwtExpiresIn = process.env.JWT_EXPIRES_IN || '24h';
   }
 
@@ -42,9 +42,9 @@ export class AuthService {
         email: user.email
       };
 
-      const token = jwt.sign(payload, this.jwtSecret, {
+      const token = sign(payload, this.jwtSecret, {
         expiresIn: this.jwtExpiresIn
-      });
+      } as SignOptions);
 
       const { password: _, ...userWithoutPassword } = user.toJSON();
 
@@ -62,7 +62,8 @@ export class AuthService {
 
   verifyToken(token: string): JwtPayload {
     try {
-      return jwt.verify(token, this.jwtSecret) as JwtPayload;
+      const decoded = verify(token, this.jwtSecret) as JwtPayloadType;
+      return decoded as JwtPayload;
     } catch (error: any) {
       if (error.name === 'TokenExpiredError') {
         throw new Error('Token expirado');
