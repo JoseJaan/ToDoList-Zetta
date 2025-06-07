@@ -17,10 +17,10 @@ class EmailService {
   }
 
   async sendPasswordResetEmail(email: string, token: string, userName: string): Promise<void> {
-    const resetUrl = `${process.env.FRONTEND_URL || 'http://localhost:3000'}/reset-password?token=${token}`;
+    const resetUrl = `${process.env.FRONTEND_URL || 'http://localhost:3000'}/api/auth/reset-password?token=${token}`;
     
     const mailOptions = {
-      from: `"${process.env.APP_NAME || 'Sua Aplicação'}" <${process.env.GMAIL_USER}>`,
+      from: `"Zetta ToDoList" <${process.env.GMAIL_USER}>`,
       to: email,
       subject: 'Redefinição de Senha',
       html: `
