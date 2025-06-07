@@ -39,7 +39,6 @@ export class AuthMiddleware {
         //Remove "Bearer "
         token = authHeader.substring(7);
       }
-
       if (!token) {
         res.status(401).json({
           error: 'Não autorizado',

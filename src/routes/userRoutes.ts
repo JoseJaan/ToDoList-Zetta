@@ -12,6 +12,4 @@ router.get('/:id', userController.getById.bind(userController));
 router.put('/:id', userController.update.bind(userController));
 router.delete('/:id', userController.delete.bind(userController));
 
-router.get('/:userId/tasks', taskController.getByUserId.bind(taskController));
-
 export default router;

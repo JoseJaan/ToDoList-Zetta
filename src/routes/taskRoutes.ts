@@ -12,6 +12,4 @@ router.get('/:id', authMiddleware.authenticate, taskController.getById.bind(task
 router.put('/:id', authMiddleware.authenticate, taskController.update.bind(taskController));
 router.delete('/:id', authMiddleware.authenticate, taskController.delete.bind(taskController));
 
-
-
 export default router;
