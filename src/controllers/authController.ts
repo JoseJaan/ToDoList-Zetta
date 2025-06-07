@@ -61,6 +61,7 @@ export class AuthController {
     }
   }
 
+  //Obtém dados do usuário autenticado
   async me(req: Request, res: Response): Promise<void> {
     try {
       const user = (req as any).user;
