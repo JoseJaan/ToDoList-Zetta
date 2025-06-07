@@ -4,7 +4,8 @@ import dotenv from 'dotenv';
 import sequelize from './config/database';
 import './models/User';
 import './models/Task';
-import { User, Task } from './models';
+import './models/PasswordReset'
+import { User, Task, PasswordReset } from './models';
 import routes from './routes';
 
 dotenv.config();

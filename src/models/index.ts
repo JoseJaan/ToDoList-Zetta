@@ -1,5 +1,6 @@
 import User from './User';
 import Task, { TaskStatus } from './Task';
+import PasswordReset from './PasswordReset';
 
 User.hasMany(Task, {
   foreignKey: 'userId',
@@ -11,4 +12,14 @@ Task.belongsTo(User, {
   as: 'user'
 });
 
-export { User, Task, TaskStatus };
+User.hasMany(PasswordReset, { 
+    foreignKey: 'userId', 
+    as: 'passwordResets' 
+});
+
+PasswordReset.belongsTo(User, { 
+  foreignKey: 'userId', 
+  as: 'user' 
+});
+
+export { User, Task, TaskStatus, PasswordReset};
