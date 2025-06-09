@@ -2,12 +2,14 @@ export interface CreateUserRequest {
   name: string;
   email: string;
   password: string;
+  profileImage?: string;
 }
 
 export interface UpdateUserRequest {
   name?: string;
   email?: string;
   password?: string;
+  profileImage?: string;
 }
 
 export class UserValidation {
@@ -17,11 +19,11 @@ export class UserValidation {
     if (!data.name) {
       errors.push('Nome é obrigatório');
     }
-
+    
     if (!data.email) {
       errors.push('Email é obrigatório');
     }
-
+    
     if (!data.password) {
       errors.push('Senha é obrigatória');
     }
@@ -38,7 +40,11 @@ export class UserValidation {
       errors.push('Senha deve ter pelo menos 6 caracteres');
     }
 
-    const allowedFields = ['name', 'email', 'password'];
+    if (data.profileImage && (typeof data.profileImage !== 'string' || !this.isValidUrl(data.profileImage))) {
+      errors.push('URL da imagem de perfil deve ser válida');
+    }
+
+    const allowedFields = ['name', 'email', 'password', 'profileImage'];
     const extraFields = Object.keys(data).filter(key => !allowedFields.includes(key));
     if (extraFields.length > 0) {
       errors.push(`Campos não permitidos: ${extraFields.join(', ')}`);
@@ -53,7 +59,7 @@ export class UserValidation {
   static validateUpdateUser(data: any): { isValid: boolean; errors: string[] } {
     const errors: string[] = [];
 
-    if (!data.name && !data.email && !data.password) {
+    if (!data.name && !data.email && !data.password && !data.profileImage) {
       errors.push('Pelo menos um campo deve ser fornecido para atualização');
     }
 
@@ -69,7 +75,11 @@ export class UserValidation {
       errors.push('Senha deve ter pelo menos 6 caracteres');
     }
 
-    const allowedFields = ['name', 'email', 'password'];
+    if (data.profileImage && (typeof data.profileImage !== 'string' || !this.isValidUrl(data.profileImage))) {
+      errors.push('URL da imagem de perfil deve ser válida');
+    }
+
+    const allowedFields = ['name', 'email', 'password', 'profileImage'];
     const extraFields = Object.keys(data).filter(key => !allowedFields.includes(key));
     if (extraFields.length > 0) {
       errors.push(`Campos não permitidos: ${extraFields.join(', ')}`);
@@ -97,5 +107,14 @@ export class UserValidation {
   private static isValidEmail(email: string): boolean {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
+  }
+
+  private static isValidUrl(url: string): boolean {
+    try {
+      new URL(url);
+      return true;
+    } catch (error) {
+      return false;
+    }
   }
 }
