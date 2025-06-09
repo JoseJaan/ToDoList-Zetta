@@ -7,7 +7,11 @@ const router = Router();
 const userController = new UserController();
 const taskController = new TaskController();
 
-router.post('/', userController.create.bind(userController));
+router.post(
+  '/',
+  upload.single('profileImage'),
+  userController.create.bind(userController)
+);
 router.get('/', userController.getAll.bind(userController));
 router.get('/:id', userController.getById.bind(userController));
 router.put('/:id', userController.update.bind(userController));
