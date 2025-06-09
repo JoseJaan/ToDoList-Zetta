@@ -7,17 +7,19 @@ interface UserAttributes {
   name: string;
   email: string;
   password: string;
+  profileImage?: string;
   createdAt?: Date;
   updatedAt?: Date;
 }
 
-interface UserCreationAttributes extends Optional<UserAttributes, 'id'> {}
+interface UserCreationAttributes extends Optional<UserAttributes, 'id' | 'profileImage'> {}
 
 class User extends Model<UserAttributes, UserCreationAttributes> implements UserAttributes {
   public id!: string;
   public name!: string;
   public email!: string;
   public password!: string;
+  public profileImage?: string;
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
 
@@ -74,6 +76,15 @@ User.init(
         len: {
           args: [6, 255],
           msg: 'Senha deve ter pelo menos 6 caracteres',
+        },
+      },
+    },
+    profileImage: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+      validate: {
+        isUrl: {
+          msg: 'URL da imagem deve ter um formato válido',
         },
       },
     },
