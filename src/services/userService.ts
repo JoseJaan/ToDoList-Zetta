@@ -7,9 +7,9 @@ export class UserService {
       const user = await User.create({
         name: userData.name.trim(),
         email: userData.email.toLowerCase().trim(),
-        password: userData.password
+        password: userData.password,
+        profileImage: userData.profileImage || undefined
       });
-
       return user;
     } catch (error: any) {
       if (error.name === 'SequelizeUniqueConstraintError') {
@@ -29,7 +29,6 @@ export class UserService {
         attributes: { exclude: ['password'] },
         order: [['createdAt', 'DESC']]
       });
-
       return users;
     } catch (error) {
       throw new Error('Erro interno do servidor ao buscar usuários');
@@ -41,11 +40,11 @@ export class UserService {
       const user = await User.findByPk(id, {
         attributes: { exclude: ['password'] }
       });
-
+      
       if (!user) {
         throw new Error('Usuário não encontrado');
       }
-
+      
       return user;
     } catch (error: any) {
       if (error.message === 'Usuário não encontrado') {
@@ -58,23 +57,27 @@ export class UserService {
   async updateUser(id: string, userData: UpdateUserRequest): Promise<User> {
     try {
       const user = await User.findByPk(id);
-
+      
       if (!user) {
         throw new Error('Usuário não encontrado');
       }
 
       const updateData: any = {};
-      
+     
       if (userData.name) {
         updateData.name = userData.name.trim();
       }
-      
+     
       if (userData.email) {
         updateData.email = userData.email.toLowerCase().trim();
       }
-      
+     
       if (userData.password) {
         updateData.password = userData.password;
+      }
+
+      if (userData.profileImage !== undefined) {
+        updateData.profileImage = userData.profileImage;
       }
 
       await user.update(updateData);
@@ -99,14 +102,37 @@ export class UserService {
     }
   }
 
-  async deleteUser(id: string): Promise<void> {
+  async updateUserProfileImage(id: string, profileImageUrl: string): Promise<User> {
     try {
       const user = await User.findByPk(id);
-
+      
       if (!user) {
         throw new Error('Usuário não encontrado');
       }
 
+      await user.update({ profileImage: profileImageUrl });
+
+      const updatedUser = await User.findByPk(id, {
+        attributes: { exclude: ['password'] }
+      });
+
+      return updatedUser!;
+    } catch (error: any) {
+      if (error.message === 'Usuário não encontrado') {
+        throw error;
+      }
+      throw new Error('Erro interno do servidor ao atualizar imagem de perfil');
+    }
+  }
+
+  async deleteUser(id: string): Promise<void> {
+    try {
+      const user = await User.findByPk(id);
+      
+      if (!user) {
+        throw new Error('Usuário não encontrado');
+      }
+      
       await user.destroy();
     } catch (error: any) {
       if (error.message === 'Usuário não encontrado') {
