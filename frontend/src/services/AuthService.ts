@@ -39,7 +39,7 @@ export class AuthService {
 
   async register(userData: RegisterData): Promise<AuthResponse> {
     try {
-      const response = await fetch(`${this.baseUrl}/register`, {
+      const response = await fetch(`/api/users`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

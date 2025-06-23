@@ -15,7 +15,7 @@ export interface RegisterData {
   name: string;
   email: string;
   password: string;
-  displayName?: string;
+  displayName: string;
 }
 
 export interface AuthResponse {

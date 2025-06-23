@@ -10,6 +10,7 @@ interface UserAttributes {
   profileImage?: string;
   createdAt?: Date;
   updatedAt?: Date;
+  displayName: string;
 }
 
 interface UserCreationAttributes extends Optional<UserAttributes, 'id' | 'profileImage'> {}
@@ -19,6 +20,7 @@ class User extends Model<UserAttributes, UserCreationAttributes> implements User
   public name!: string;
   public email!: string;
   public password!: string;
+  public displayName!: string;
   public profileImage?: string;
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
@@ -88,6 +90,16 @@ User.init(
         },
       },
     },
+    displayName: {
+      type: DataTypes.STRING(100),
+      allowNull: true,
+      validate: {
+        len: {
+          args: [2, 100],
+          msg: 'Nome de exibição deve ter entre 2 e 100 caracteres',
+        },
+      },
+    }
   },
   {
     sequelize,
