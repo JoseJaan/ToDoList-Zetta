@@ -1,8 +1,9 @@
 import { LoginPage } from '../pages/LoginPage';
 import { RegisterPage } from '../pages/RegisterPage';
+import { DashboardPage } from '../pages/DashboardPage';
 import { AuthService } from '../services/AuthService';
 
-type Page = LoginPage | RegisterPage;
+type Page = LoginPage | RegisterPage | DashboardPage;
 
 export class Router {
   private currentPage: Page | null = null;
@@ -51,8 +52,8 @@ export class Router {
         this.currentPage = new RegisterPage();
         break;
       case 'dashboard':
-        this.showDashboard();
-        return;
+        this.currentPage = new DashboardPage();
+        break;
       default:
         this.navigateTo('login');
         return;
@@ -60,19 +61,5 @@ export class Router {
 
     this.appContainer.innerHTML = this.currentPage.render();
     this.currentPage.bindEvents();
-  }
-
-  private showDashboard(): void {
-    this.appContainer.innerHTML = `
-      <div class="d-flex align-items-center justify-content-center min-vh-100 bg-success text-white">
-        <div class="text-center">
-          <h1 class="display-4 mb-4">Login realizado com sucesso!</h1>
-          <p class="lead">Dashboard será implementado em breve.</p>
-          <button class="btn btn-light btn-lg" onclick="window.location.reload()">
-            Voltar ao Login
-          </button>
-        </div>
-      </div>
-    `;
   }
 }

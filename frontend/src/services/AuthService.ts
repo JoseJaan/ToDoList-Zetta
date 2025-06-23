@@ -2,7 +2,7 @@ import { LoginCredentials, RegisterData, AuthResponse, AuthError } from '../type
 
 export class AuthService {
   private static instance: AuthService;
-  private baseUrl = '/api/auth'; 
+  private baseUrl = '/api/auth';
 
   static getInstance(): AuthService {
     if (!AuthService.instance) {
@@ -26,9 +26,14 @@ export class AuthService {
         throw new Error(error.message || 'Erro ao fazer login');
       }
 
-      return await response.json();
+      const authResponse = await response.json();
+      
+      // Save user info for greeting
+      this.saveUserInfo(authResponse.user);
+      
+      return authResponse;
     } catch (error) {
-      throw new Error(error instanceof Error ? error.message : 'Erro inesperado');
+      throw error;
     }
   }
 
@@ -47,9 +52,14 @@ export class AuthService {
         throw new Error(error.message || 'Erro ao cadastrar usuário');
       }
 
-      return await response.json();
+      const authResponse = await response.json();
+      
+      // Save user info for greeting
+      this.saveUserInfo(authResponse.user);
+      
+      return authResponse;
     } catch (error) {
-      throw new Error(error instanceof Error ? error.message : 'Erro inesperado');
+      throw error;
     }
   }
 
@@ -63,9 +73,32 @@ export class AuthService {
 
   removeToken(): void {
     delete (window as any).__auth_token;
+    delete (window as any).__user_info;
   }
 
   isAuthenticated(): boolean {
     return !!this.getToken();
+  }
+
+  saveUserInfo(user: any): void {
+    (window as any).__user_info = user;
+  }
+
+  getUserInfo(): any {
+    return (window as any).__user_info || null;
+  }
+
+  getUserNickname(): string | null {
+    const userInfo = this.getUserInfo();
+    return userInfo?.nickname || userInfo?.name || null;
+  }
+
+  private extractNicknameFromEmail(email: string): string {
+    // Extract the part before @ as nickname
+    const atIndex = email.indexOf('@');
+    if (atIndex > 0) {
+      return email.substring(0, atIndex);
+    }
+    return email;
   }
 }
