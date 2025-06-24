@@ -19,6 +19,9 @@ module.exports = {
       '@': path.resolve(__dirname, 'src'),
     },
   },
+  stats: {
+    preset: 'errors-only',
+  },
   module: {
     rules: [
       {
@@ -58,6 +61,13 @@ module.exports = {
   devServer: {
     static: {
       directory: path.join(__dirname, 'dist'),
+    },
+    client: {
+      logging: 'error',
+      overlay: {
+        errors: true,
+        warnings: false 
+      }
     },
     port: 3001,
     open: true,

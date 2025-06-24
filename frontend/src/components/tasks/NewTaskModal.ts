@@ -38,26 +38,10 @@ export class NewTaskModal {
                       <label for="taskStatus" class="form-label">Status</label>
                       <select class="form-select" id="taskStatus" name="status">
                         <option value="pending" selected>Pendente</option>
-                        <option value="in_progress">Em Progresso</option>
                         <option value="completed">Concluída</option>
                       </select>
                     </div>
                   </div>
-                  <div class="col-md-6">
-                    <div class="mb-3">
-                      <label for="taskPriority" class="form-label">Prioridade</label>
-                      <select class="form-select" id="taskPriority" name="priority">
-                        <option value="low">Baixa</option>
-                        <option value="medium" selected>Média</option>
-                        <option value="high">Alta</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="mb-3">
-                  <label for="taskDueDate" class="form-label">Data de Vencimento</label>
-                  <input type="date" class="form-control" id="taskDueDate" name="dueDate">
                 </div>
 
                 <div id="taskErrorMessage" class="alert alert-danger d-none"></div>
@@ -98,7 +82,7 @@ export class NewTaskModal {
 
       const formData = new FormData(form);
       const taskData = this.getTaskDataFromForm(formData);
-
+      
       const newTask = await this.taskService.createTask(taskData);
       
       this.onTaskCreated(newTask);
