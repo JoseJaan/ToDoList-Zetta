@@ -3,6 +3,7 @@ export interface CreateUserRequest {
   email: string;
   password: string;
   profileImage?: string;
+  displayName?: string;
 }
 
 export interface UpdateUserRequest {
@@ -24,12 +25,20 @@ export class UserValidation {
       errors.push('Email é obrigatório');
     }
     
+    if (!data.displayName) {
+      errors.push('Nome de exibição é obrigatório');
+    } 
+
     if (!data.password) {
       errors.push('Senha é obrigatória');
     }
 
     if (data.name && (typeof data.name !== 'string' || data.name.trim().length < 2 || data.name.trim().length > 100)) {
       errors.push('Nome deve ter entre 2 e 100 caracteres');
+    }
+
+    if (data.displayName && (typeof data.displayName !== 'string' || data.displayName.trim().length < 2 || data.displayName.trim().length > 100)) {
+      errors.push('Nome de exibição deve ter entre 2 e 100 caracteres');
     }
 
     if (data.email && (typeof data.email !== 'string' || !this.isValidEmail(data.email))) {
@@ -59,11 +68,15 @@ export class UserValidation {
   static validateUpdateUser(data: any): { isValid: boolean; errors: string[] } {
     const errors: string[] = [];
 
-    if (!data.name && !data.email && !data.password && !data.profileImage) {
+    if (!data.name && !data.email && !data.password && !data.profileImage && !data.displayName) {
       errors.push('Pelo menos um campo deve ser fornecido para atualização');
     }
 
     if (data.name && (typeof data.name !== 'string' || data.name.trim().length < 2 || data.name.trim().length > 100)) {
+      errors.push('Nome deve ter entre 2 e 100 caracteres');
+    }
+
+    if (data.displayName && (typeof data.displayName !== 'string' || data.displayName.trim().length < 2 || data.displayName.trim().length > 100)) {
       errors.push('Nome deve ter entre 2 e 100 caracteres');
     }
 

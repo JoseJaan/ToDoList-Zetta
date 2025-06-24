@@ -1,0 +1,41 @@
+@import '~bootstrap/scss/bootstrap';
+
+:root {
+  --primary-color: #20b2aa;
+  --secondary-color: #ffd700;
+  --success-color: #28a745;
+  --danger-color: #dc3545;
+  --warning-color: #ffc107;
+  --info-color: #17a2b8;
+  --light-color: #f8f9fa;
+  --dark-color: #343a40;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  color: var(--dark-color);
+  margin: 0;
+  padding: 0;
+}
+
+.min-vh-100 {
+  min-height: 100vh;
+}
+
+.object-fit-cover {
+  object-fit: cover;
+}
+
+.object-fit-contain {
+  object-fit: contain;
+}
+
+@import 'components/auth';
+@import 'components/header';
+@import 'components/footer';
+@import 'components/dashboard';

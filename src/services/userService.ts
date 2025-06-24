@@ -8,7 +8,8 @@ export class UserService {
         name: userData.name.trim(),
         email: userData.email.toLowerCase().trim(),
         password: userData.password,
-        profileImage: userData.profileImage || undefined
+        profileImage: userData.profileImage || undefined,
+        displayName: userData.displayName ? userData.displayName.trim() : ''
       });
       return user;
     } catch (error: any) {
