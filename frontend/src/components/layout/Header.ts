@@ -35,18 +35,6 @@ export class Header {
                     <span class="user-name d-none d-md-inline">${userNickname}</span>
                   </a>
                   <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                    <li>
-                      <a class="dropdown-item" href="#" id="profileBtn">
-                        <i class="fas fa-user me-2"></i>
-                        Perfil
-                      </a>
-                    </li>
-                    <li>
-                      <a class="dropdown-item" href="#" id="settingsBtn">
-                        <i class="fas fa-cog me-2"></i>
-                        Configurações
-                      </a>
-                    </li>
                     <li><hr class="dropdown-divider"></li>
                     <li>
                       <a class="dropdown-item text-danger" href="#" id="logoutBtn">
@@ -70,18 +58,6 @@ export class Header {
       e.preventDefault();
       this.logout();
     });
-
-    const profileBtn = document.getElementById('profileBtn');
-    profileBtn?.addEventListener('click', (e) => {
-      e.preventDefault();
-      this.showProfile();
-    });
-
-    const settingsBtn = document.getElementById('settingsBtn');
-    settingsBtn?.addEventListener('click', (e) => {
-      e.preventDefault();
-      this.showSettings();
-    });
   }
 
   private logout(): void {
@@ -89,14 +65,6 @@ export class Header {
       this.authService.removeToken();
       window.dispatchEvent(new CustomEvent('switchToLogin'));
     }
-  }
-
-  private showProfile(): void {
-    alert('Funcionalidade de perfil será implementada em breve!');
-  }
-
-  private showSettings(): void {
-    alert('Funcionalidade de configurações será implementada em breve!');
   }
 
   destroy(): void {
