@@ -18,6 +18,10 @@ export class AuthService {
   constructor() {
     this.jwtSecret = process.env.JWT_SECRET || 'secret-key';
     this.jwtExpiresIn = process.env.JWT_EXPIRES_IN || '24h';
+
+    if (!process.env.JWT_SECRET) {
+      console.warn("[AuthService Constructor] WARNING: JWT_SECRET not found in environment variables, using fallback");
+    }
   }
 
   async login(loginData: LoginRequest): Promise<{ user: User; token: string }> {
@@ -61,22 +65,36 @@ export class AuthService {
   }
 
   verifyToken(token: string): JwtPayload {
-    try {
-      const decoded = verify(token, this.jwtSecret) as JwtPayloadType;
-      return decoded as JwtPayload;
-    } catch (error: any) {
-      if (error.name === 'TokenExpiredError') {
-        throw new Error('Token expirado');
-      }
-      if (error.name === 'JsonWebTokenError') {
-        throw new Error('Token inválido');
-      }
-      throw new Error('Erro ao verificar token');
+  try {
+    const tokenParts = token.split('.');
+    console.log("[verifyToken] token parts count: ", tokenParts.length);
+    
+    if (tokenParts.length !== 3) {
+      throw new Error('Token malformado');
     }
+    const decoded = verify(token, this.jwtSecret) as JwtPayloadType;
+    return decoded as JwtPayload;
+  } catch (error: any) {
+    console.log("[verifyToken] error details: ", {
+      name: error.name,
+      message: error.message,
+      stack: error.stack?.split('\n')[0]
+    });
+    
+    if (error.name === 'TokenExpiredError') {
+      throw new Error('Token expirado');
+    }
+    if (error.name === 'JsonWebTokenError') {
+      console.log("[verifyToken] JsonWebTokenError details: ", error.message);
+      throw new Error('Token inválido');
+    }
+    throw new Error('Erro ao verificar token');
   }
+}
 
   async getUserFromToken(token: string): Promise<User> {
     try {
+      console.log("[getUserFromToken] token: ",token)
       const payload = this.verifyToken(token);
       
       const user = await User.findByPk(payload.userId, {

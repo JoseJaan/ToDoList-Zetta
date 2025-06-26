@@ -20,7 +20,6 @@ export class AuthMiddleware {
   authenticate = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       let token: string | undefined;
-
       if (req.cookies?.authToken) {
         token = req.cookies.authToken;
       } 
@@ -28,7 +27,6 @@ export class AuthMiddleware {
       else if (req.headers.authorization) {
         const authHeader = req.headers.authorization;
         const headerValidation = AuthValidation.validateAuthorizationHeader(authHeader);
-       
         if (!headerValidation.isValid) {
           res.status(401).json({
             error: 'Não autorizado',

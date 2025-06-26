@@ -14,7 +14,7 @@ export class AuthController {
   async login(req: Request, res: Response): Promise<void> {
     try {
       const validation = AuthValidation.validateLogin(req.body);
-     
+    
       if (!validation.isValid) {
         res.status(400).json({
           error: 'Dados inválidos',
@@ -22,19 +22,21 @@ export class AuthController {
         });
         return;
       }
-
+      
       const result = await this.authService.login(req.body);
-     
+    
       res.cookie('authToken', result.token, {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
-        sameSite: 'strict',
-        maxAge: 24 * 60 * 60 * 1000, //24 horas em millisegundos
+        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax', 
+        maxAge: 24 * 60 * 60 * 1000, // 24 horas em millisegundos
+        path: '/', 
       });
-
+      console.log("[login] result.user: ",result.user)
       res.status(200).json({
         message: 'Login realizado com sucesso',
-        user: result.user
+        user: result.user,
+        token: result.token
       });
     } catch (error: any) {
       if (error.message === 'Credenciais inválidas') {
@@ -51,12 +53,34 @@ export class AuthController {
     }
   }
 
+  async checkAuth(req: Request, res: Response): Promise<void> {
+    try {
+      if (req.user) {
+        res.status(200).json({
+          authenticated: true,
+          user: req.user
+        });
+      } else {
+        res.status(401).json({
+          authenticated: false,
+          message: 'Não autenticado'
+        });
+      }
+    } catch (error) {
+      res.status(500).json({
+        error: 'Erro interno do servidor',
+        message: 'Erro ao verificar autenticação'
+      });
+    }
+  }
+
   async logout(req: Request, res: Response): Promise<void> {
     try {
       res.clearCookie('authToken', {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
-        sameSite: 'strict'
+        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+        path: '/',
       });
 
       res.status(200).json({

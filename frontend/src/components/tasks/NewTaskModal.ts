@@ -82,7 +82,8 @@ export class NewTaskModal {
 
       const formData = new FormData(form);
       const taskData = this.getTaskDataFromForm(formData);
-      
+      console.log("[handleSubmit] formData: ",formData)
+      console.log("[handleSubmit] taskData: ",taskData)
       const newTask = await this.taskService.createTask(taskData);
       
       this.onTaskCreated(newTask);
