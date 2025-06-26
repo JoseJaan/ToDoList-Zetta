@@ -14,7 +14,6 @@ export class TaskController {
     try {
       const taskData = { ...req.body, userId: req.user.id };
       const validation = TaskValidation.validateCreateTask(taskData);
-      
       if (!validation.isValid) {
         res.status(400).json({
           error: 'Dados inválidos',

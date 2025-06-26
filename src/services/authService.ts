@@ -67,8 +67,7 @@ export class AuthService {
   verifyToken(token: string): JwtPayload {
   try {
     const tokenParts = token.split('.');
-    console.log("[verifyToken] token parts count: ", tokenParts.length);
-    
+
     if (tokenParts.length !== 3) {
       throw new Error('Token malformado');
     }
@@ -94,7 +93,6 @@ export class AuthService {
 
   async getUserFromToken(token: string): Promise<User> {
     try {
-      console.log("[getUserFromToken] token: ",token)
       const payload = this.verifyToken(token);
       
       const user = await User.findByPk(payload.userId, {

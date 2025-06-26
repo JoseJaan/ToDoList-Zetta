@@ -37,8 +37,8 @@ export class NewTaskModal {
                     <div class="mb-3">
                       <label for="taskStatus" class="form-label">Status</label>
                       <select class="form-select" id="taskStatus" name="status">
-                        <option value="pending" selected>Pendente</option>
-                        <option value="completed">Concluída</option>
+                        <option value="pendente" selected>Pendente</option>
+                        <option value="concluida">Concluída</option>
                       </select>
                     </div>
                   </div>

@@ -60,8 +60,8 @@ export class TaskCard {
           <div class="task-card-expanded">
             <div class="task-actions-expanded">
               <select class="form-select form-select-sm task-status-select">
-                <option value="pending" ${this.task.status === 'pendente' ? 'selected' : ''}>Pendente</option>
-                <option value="completed" ${this.task.status === 'concluida' ? 'selected' : ''}>Concluída</option>
+                <option value="pendente" ${this.task.status === 'pendente' ? 'selected' : ''}>Pendente</option>
+                <option value="concluida" ${this.task.status === 'concluida' ? 'selected' : ''}>Concluída</option>
               </select>
             </div>
           </div>

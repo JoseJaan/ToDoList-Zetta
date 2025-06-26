@@ -16,7 +16,6 @@ export interface UpdateTaskRequest {
 export class TaskValidation {
   static validateCreateTask(data: any): { isValid: boolean; errors: string[] } {
     const errors: string[] = [];
-
     if (!data.name) {
       errors.push('Nome da tarefa é obrigatório');
     }
@@ -50,7 +49,6 @@ export class TaskValidation {
     if (extraFields.length > 0) {
       errors.push(`Campos não permitidos: ${extraFields.join(', ')}`);
     }
-
     return {
       isValid: errors.length === 0,
       errors
