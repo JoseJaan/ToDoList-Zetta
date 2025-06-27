@@ -18,14 +18,18 @@ export class Router {
   }
 
   private init(): void {
-    if (this.authService.isAuthenticated()) {
-      this.navigateTo('dashboard');
-    } else {
-      this.navigateTo('login');
-    }
+    const hash = window.location.hash.replace('#', '');
+    const initialRoute = hash || (this.authService.isAuthenticated() ? 'dashboard' : 'login');
+    this.navigateTo(initialRoute);
   }
 
+
   private bindEvents(): void {
+    window.addEventListener('popstate', (event) => {
+      const route = event.state?.route || 'login';
+      this.navigateTo(route, false);
+    });
+
     window.addEventListener('switchToRegister', () => {
       this.navigateTo('register');
     });
@@ -39,7 +43,7 @@ export class Router {
     });
   }
 
-  navigateTo(route: string): void {
+  navigateTo(route: string, push: boolean = true): void {
     if (this.currentPage && 'destroy' in this.currentPage) {
       this.currentPage.destroy();
     }
@@ -61,5 +65,10 @@ export class Router {
 
     this.appContainer.innerHTML = this.currentPage.render();
     this.currentPage.bindEvents();
+
+    if (push) {
+      window.history.pushState({ route }, '', `#${route}`);
+    }
   }
+
 }
