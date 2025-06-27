@@ -18,6 +18,7 @@ export class AuthService {
         headers: {
           'Content-Type': 'application/json',
         },
+        credentials: 'include', 
         body: JSON.stringify(credentials),
       });
 
@@ -27,10 +28,14 @@ export class AuthService {
       }
 
       const authResponse = await response.json();
-      
-      // Save user info for greeting
+      console.log("[login] authResponse: ", authResponse);
+
       this.saveUserInfo(authResponse.user);
-      
+
+      if (authResponse.token) {
+        this.saveToken(authResponse.token);
+      }
+
       return authResponse;
     } catch (error) {
       throw error;
@@ -44,6 +49,7 @@ export class AuthService {
         headers: {
           'Content-Type': 'application/json',
         },
+        credentials: 'include', 
         body: JSON.stringify(userData),
       });
 
@@ -54,12 +60,55 @@ export class AuthService {
 
       const authResponse = await response.json();
       
-      // Save user info for greeting
       this.saveUserInfo(authResponse.user);
+      
+      if (authResponse.token) {
+        this.saveToken(authResponse.token);
+      }
       
       return authResponse;
     } catch (error) {
       throw error;
+    }
+  }
+
+  async checkAuthStatus(): Promise<boolean> {
+    try {
+      const response = await fetch(`${this.baseUrl}/check`, {
+        method: 'GET',
+        credentials: 'include', 
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        if (data.user) {
+          this.saveUserInfo(data.user);
+          return true;
+        }
+      }
+      return false;
+    } catch (error) {
+      console.error('Erro ao verificar status de autenticação:', error);
+      return false;
+    }
+  }
+
+  async logout(): Promise<void> {
+    try {
+      await fetch(`${this.baseUrl}/logout`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+    } catch (error) {
+      console.error('Erro ao fazer logout:', error);
+    } finally {
+      this.removeToken();
     }
   }
 
@@ -77,7 +126,9 @@ export class AuthService {
   }
 
   isAuthenticated(): boolean {
-    return !!this.getToken();
+    const hasLocalToken = !!this.getToken();
+    const hasUserInfo = !!this.getUserInfo();
+    return hasLocalToken || hasUserInfo;
   }
 
   saveUserInfo(user: any): void {
@@ -91,14 +142,5 @@ export class AuthService {
   getUserNickname(): string | null {
     const userInfo = this.getUserInfo();
     return userInfo?.nickname || userInfo?.name || null;
-  }
-
-  private extractNicknameFromEmail(email: string): string {
-    // Extract the part before @ as nickname
-    const atIndex = email.indexOf('@');
-    if (atIndex > 0) {
-      return email.substring(0, atIndex);
-    }
-    return email;
   }
 }

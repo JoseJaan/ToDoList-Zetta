@@ -54,7 +54,7 @@ export class TaskService {
         },
         body: JSON.stringify(taskData)
       });
-
+      console.log("[createTask] response: ",response)
       if (!response.ok) {
         throw new Error('Erro ao criar tarefa');
       }

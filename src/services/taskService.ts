@@ -10,7 +10,6 @@ export class TaskService {
         status: taskData.status || TaskStatus.PENDING,
         userId: taskData.userId
       });
-
       const taskWithUser = await Task.findByPk(task.id, {
         include: [
           {

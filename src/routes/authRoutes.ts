@@ -9,6 +9,7 @@ const authMiddleware = new AuthMiddleware();
 router.post('/login', authController.login.bind(authController));
 router.post('/logout', authMiddleware.authenticate, authController.logout.bind(authController));
 
+router.get('/check', authMiddleware.optionalAuthenticate, authController.checkAuth);
 router.get('/me', authMiddleware.authenticate, authController.me.bind(authController));
 
 router.post('/forgot-password', authController.forgotPassword.bind(authController));
