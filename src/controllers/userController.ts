@@ -11,82 +11,83 @@ export class UserController {
   }
 
   async create(req: Request, res: Response): Promise<void> {
-  try {
-    console.log("[userController.create]: Chegou no controller")
-    const validation = UserValidation.validateCreateUser(req.body);
-    console.log("[userController.create]: Dados: ",req.body)
-    if (!validation.isValid) {
-      res.status(400).json({
-        error: 'Dados inválidos',
-        details: validation.errors
-      });
-      return;
-    }
-    console.log("[userController.create]: Dados são válidos")
-    let imageUrl: string | undefined = undefined;
-  
-    if (req.file) {
-      const allowedMimeTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
-      if (!allowedMimeTypes.includes(req.file.mimetype)) {
+    try {
+      console.log("[userController.create]: Chegou no controller")
+      const validation = UserValidation.validateCreateUser(req.body);
+      console.log("[userController.create]: Dados: ",req.body)
+      if (!validation.isValid) {
+        console.log("[userController.create]: Dados inválidos", validation.errors)
         res.status(400).json({
-          error: 'Tipo de arquivo inválido',
-          message: 'Apenas imagens JPEG, PNG, GIF e WebP são permitidas'
+          error: 'Dados inválidos',
+          details: validation.errors
+        });
+        return;
+      }
+      console.log("[userController.create]: Dados são válidos")
+      let imageUrl: string | undefined = undefined;
+    
+      if (req.file) {
+        const allowedMimeTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
+        if (!allowedMimeTypes.includes(req.file.mimetype)) {
+          res.status(400).json({
+            error: 'Tipo de arquivo inválido',
+            message: 'Apenas imagens JPEG, PNG, GIF e WebP são permitidas'
+          });
+          return;
+        }
+
+        const maxSize = 5 * 1024 * 1024; 
+        if (req.file.size > maxSize) {
+          res.status(400).json({
+            error: 'Arquivo muito grande',
+            message: 'A imagem deve ter no máximo 5MB'
+          });
+          return;
+        }
+
+        imageUrl = await CloudinaryService.uploadImage(
+          req.file.buffer,
+          `user-${Date.now()}`,
+          'profile-images'
+        );
+      }
+
+      const user = await this.userService.createUser({
+        ...req.body,
+        profileImage: imageUrl
+      });
+
+      const { password, ...userWithoutPassword } = user.toJSON();
+
+      res.status(201).json({
+        message: 'Usuário criado com sucesso',
+        user: userWithoutPassword
+      });
+    } catch (error: any) {
+      console.error('Erro ao criar usuário:', error);
+
+      if (error.message.includes('Email já está em uso')) {
+        res.status(409).json({
+          error: 'Conflito',
+          message: error.message
         });
         return;
       }
 
-      const maxSize = 5 * 1024 * 1024; 
-      if (req.file.size > maxSize) {
+      if (error.message.includes('Erro de validação')) {
         res.status(400).json({
-          error: 'Arquivo muito grande',
-          message: 'A imagem deve ter no máximo 5MB'
+          error: 'Dados inválidos',
+          message: error.message
         });
         return;
       }
 
-      imageUrl = await CloudinaryService.uploadImage(
-        req.file.buffer,
-        `user-${Date.now()}`,
-        'profile-images'
-      );
-    }
-
-    const user = await this.userService.createUser({
-      ...req.body,
-      profileImage: imageUrl
-    });
-
-    const { password, ...userWithoutPassword } = user.toJSON();
-
-    res.status(201).json({
-      message: 'Usuário criado com sucesso',
-      user: userWithoutPassword
-    });
-  } catch (error: any) {
-    console.error('Erro ao criar usuário:', error);
-
-    if (error.message.includes('Email já está em uso')) {
-      res.status(409).json({
-        error: 'Conflito',
-        message: error.message
+      res.status(500).json({
+        error: 'Erro interno do servidor',
+        message: 'Erro ao criar usuário'
       });
-      return;
     }
-
-    if (error.message.includes('Erro de validação')) {
-      res.status(400).json({
-        error: 'Dados inválidos',
-        message: error.message
-      });
-      return;
-    }
-
-    res.status(500).json({
-      error: 'Erro interno do servidor',
-      message: 'Erro ao criar usuário'
-    });
   }
-}
 
   async uploadProfileImage(req: Request, res: Response): Promise<void> {
     try {
