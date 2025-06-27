@@ -58,7 +58,8 @@ export class TaskService {
         throw new Error('Erro ao criar tarefa');
       }
 
-      const task = await response.json();
+      const responseData = await response.json();
+      const task = responseData.task;
       return {
         ...task,
         createdAt: new Date(task.createdAt),
