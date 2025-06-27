@@ -52,7 +52,7 @@ export class AuthService {
         credentials: 'include', 
         body: JSON.stringify(userData),
       });
-
+      
       if (!response.ok) {
         const error = await response.json();
         throw new Error(error.message || 'Erro ao cadastrar usuário');
@@ -141,6 +141,6 @@ export class AuthService {
 
   getUserNickname(): string | null {
     const userInfo = this.getUserInfo();
-    return userInfo?.nickname || userInfo?.name || null;
+    return userInfo?.displayName || userInfo?.name || null;
   }
 }
