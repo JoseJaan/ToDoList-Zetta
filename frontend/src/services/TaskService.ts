@@ -31,12 +31,11 @@ export class TaskService {
         throw new Error('Erro ao carregar tarefas');
       }
 
-      const tasks = await response.json();
-      return tasks.map((task: any) => ({
+      const data = await response.json();
+      return data.tasks.map((task: Task) => ({
         ...task,
         createdAt: new Date(task.createdAt),
         updatedAt: new Date(task.updatedAt),
-        dueDate: task.dueDate ? new Date(task.dueDate) : undefined,
         expanded: false
       }));
     } catch (error) {

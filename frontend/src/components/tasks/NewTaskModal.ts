@@ -28,7 +28,7 @@ export class NewTaskModal {
                 </div>
 
                 <div class="mb-3">
-                  <label for="taskDescription" class="form-label">Descrição</label>
+                  <label for="taskDescription" class="form-label">Descrição *</label>
                   <textarea class="form-control" id="taskDescription" name="description" rows="3" placeholder="Descreva sua tarefa..."></textarea>
                 </div>
 
