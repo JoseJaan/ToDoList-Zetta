@@ -1,5 +1,6 @@
 import { Task, TaskStatus } from '../../types/Task';
 import { TaskService } from '../../services/TaskService';
+import { EditTaskModal } from './EditTaskModal';
 
 export class TaskCard {
   private task: Task;
@@ -134,23 +135,35 @@ export class TaskCard {
   }
 
   private async updateStatus(newStatus: TaskStatus): Promise<void> {
-    try {
-      const updatedTask = await this.taskService.updateTask({
-        ...this.task,
-        status: newStatus
-      });
-      this.task = updatedTask;
-      this.onUpdate(updatedTask);
-    } catch (error) {
-      console.error('Erro ao atualizar status da tarefa:', error);
-    }
+  try {
+    const updatedTask = await this.taskService.updateTask({
+      ...this.task,
+      status: newStatus
+    });
+    updatedTask.expanded = this.task.expanded;
+    this.task = updatedTask;
+    this.onUpdate(updatedTask);
+  } catch (error) {
+    console.error('Erro ao atualizar status da tarefa:', error);
   }
+}
+
 
   private editTask(): void {
-    window.dispatchEvent(new CustomEvent('editTask', {
-      detail: { task: this.task }
-    }));
-  }
+  const modalContainer = document.createElement('div');
+  document.body.appendChild(modalContainer);
+
+  const modal = new EditTaskModal(this.task, (updatedTask) => {
+    this.task = updatedTask;
+    this.onUpdate(updatedTask);
+    document.body.removeChild(modalContainer);
+  });
+
+  modalContainer.innerHTML = modal.render();
+  modal.bindEvents();
+  modal.show();
+}
+
 
   private async deleteTask(): Promise<void> {
     if (confirm('Tem certeza que deseja excluir esta tarefa?')) {

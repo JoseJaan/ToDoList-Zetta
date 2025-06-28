@@ -57,7 +57,6 @@ export class TaskValidation {
 
   static validateUpdateTask(data: any): { isValid: boolean; errors: string[] } {
     const errors: string[] = [];
-
     if (!data.name && !data.description && !data.status) {
       errors.push('Pelo menos um campo deve ser fornecido para atualização');
     }
@@ -74,16 +73,11 @@ export class TaskValidation {
       errors.push('Status deve ser "pendente" ou "concluida"');
     }
 
-    if (data.userId !== undefined) {
-      errors.push('Não é possível alterar o usuário responsável pela tarefa');
-    }
-
-    const allowedFields = ['name', 'description', 'status'];
+    const allowedFields = ['name', 'description', 'status', 'id', 'userId', 'createdAt', 'updatedAt', 'user', 'expanded'];
     const extraFields = Object.keys(data).filter(key => !allowedFields.includes(key));
     if (extraFields.length > 0) {
       errors.push(`Campos não permitidos: ${extraFields.join(', ')}`);
     }
-
     return {
       isValid: errors.length === 0,
       errors

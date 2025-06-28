@@ -81,7 +81,7 @@ export class TaskService {
         },
         body: JSON.stringify(taskData)
       });
-
+      console.log("[updateTask] response: ",response)
       if (!response.ok) {
         throw new Error('Erro ao atualizar tarefa');
       }

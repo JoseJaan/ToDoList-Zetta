@@ -126,7 +126,6 @@ export class TaskController {
     try {
       const { id } = req.params;
       const userId = req.user.id;
-
       const idValidation = TaskValidation.validateTaskId(id);
       
       if (!idValidation.isValid) {
@@ -136,7 +135,7 @@ export class TaskController {
         });
         return;
       }
-
+      console.log("[update] req.body: ",req.body)
       const validation = TaskValidation.validateUpdateTask(req.body);
       
       if (!validation.isValid) {
