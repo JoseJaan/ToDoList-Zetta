@@ -30,9 +30,11 @@ export class TaskCard {
           <div class="task-card-actions">
             <button class="btn btn-sm btn-outline-primary task-edit-btn" title="Editar">
               <i class="fas fa-edit"></i>
+              <span class="btn-text">Editar</span>
             </button>
             <button class="btn btn-sm btn-outline-danger task-delete-btn" title="Excluir">
               <i class="fas fa-trash"></i>
+              <span class="btn-text">Excluir</span>
             </button>
           </div>
         </div>
@@ -52,6 +54,7 @@ export class TaskCard {
           <div class="task-card-toggle">
             <button class="btn btn-sm task-toggle-btn" title="Expandir/Recolher">
               <i class="fas fa-chevron-${this.task.expanded ? 'up' : 'down'}"></i>
+              <span class="btn-text">${this.task.expanded ? 'Ver menos' : 'Ver mais'}</span>
             </button>
           </div>
         </div>
