@@ -78,8 +78,7 @@ export class LoginForm {
     const form = document.getElementById('loginForm') as HTMLFormElement;
     const switchToRegister = document.getElementById('switchToRegister') as HTMLAnchorElement;
     const errorMessage = document.getElementById('errorMessage') as HTMLDivElement;
-
-    // Evento de submit do formulário
+    
     form?.addEventListener('submit', async (e) => {
       e.preventDefault();
       
@@ -104,7 +103,6 @@ export class LoginForm {
       }
     });
 
-    // Evento para trocar para cadastro
     switchToRegister?.addEventListener('click', (e) => {
       e.preventDefault();
       window.dispatchEvent(new CustomEvent('switchToRegister'));

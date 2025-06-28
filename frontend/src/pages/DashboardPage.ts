@@ -152,9 +152,6 @@ export class DashboardPage {
 
   private getRandomGreeting(): string {
     const greetings = [
-      'Bom dia',
-      'Boa tarde',
-      'Boa noite',
       'Olá',
       'E aí',
       'Oi',

@@ -114,7 +114,6 @@ export class RegisterForm {
       }
     });
 
-    // Evento para trocar para login
     switchToLogin?.addEventListener('click', (e) => {
       e.preventDefault();
       window.dispatchEvent(new CustomEvent('switchToLogin'));

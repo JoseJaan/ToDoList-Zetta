@@ -64,7 +64,6 @@ export class TaskService {
         ...task,
         createdAt: new Date(task.createdAt),
         updatedAt: new Date(task.updatedAt),
-        dueDate: task.dueDate ? new Date(task.dueDate) : undefined,
         expanded: false
       };
     } catch (error) {
@@ -91,8 +90,7 @@ export class TaskService {
       return {
         ...task,
         createdAt: new Date(task.createdAt),
-        updatedAt: new Date(task.updatedAt),
-        dueDate: task.dueDate ? new Date(task.dueDate) : undefined
+        updatedAt: new Date(task.updatedAt)
       };
     } catch (error) {
       throw error;

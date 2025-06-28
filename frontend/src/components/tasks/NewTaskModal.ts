@@ -97,7 +97,6 @@ export class NewTaskModal {
   }
 
   private getTaskDataFromForm(formData: FormData): Omit<Task, 'id' | 'createdAt' | 'updatedAt' | 'expanded'> {
-    const dueDate = formData.get('dueDate') as string;
     const name = formData.get('name');
     if (!name || typeof name !== 'string' || name.trim() === '') {
       throw new Error('O nome da tarefa é obrigatório.');
