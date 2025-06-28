@@ -2,8 +2,10 @@ import { LoginPage } from '../pages/LoginPage';
 import { RegisterPage } from '../pages/RegisterPage';
 import { DashboardPage } from '../pages/DashboardPage';
 import { AuthService } from '../services/AuthService';
+import { ForgotPasswordPage } from '../pages/ForgotPasswordPage';
+import { ResetPasswordPage } from '../pages/ResetPasswordPage';
 
-type Page = LoginPage | RegisterPage | DashboardPage;
+type Page = LoginPage | RegisterPage | DashboardPage | ForgotPasswordPage | ResetPasswordPage;
 
 export class Router {
   private currentPage: Page | null = null;
@@ -60,6 +62,17 @@ export class Router {
       }
     });
 
+    window.addEventListener('navigateToForgotPassword', () => {
+      this.navigateTo('forgot');
+    });
+
+    window.addEventListener('navigateToResetPassword', (e: any) => {
+      const token = e.detail?.token;
+      if (token) {
+        this.navigateTo('reset',token);
+      }
+    });
+
     window.addEventListener('switchToRegister', () => {
       this.navigateTo('register');
     });
@@ -77,7 +90,7 @@ export class Router {
     });
   }
 
-  async navigateTo(route: string, push: boolean = true): Promise<void> {
+  async navigateTo(route: string, push: boolean = true, token?: string): Promise<void> {
     if (!this.isInitializing) {
       if (route === 'dashboard') {
         const isAuthenticated = await this.authService.checkAuthStatus();
@@ -102,12 +115,19 @@ export class Router {
       case 'dashboard':
         this.currentPage = new DashboardPage();
         break;
+      case 'reset':
+        this.currentPage = new ResetPasswordPage(token ?? '');
+        break;
+      case 'forgot':
+        this.currentPage = new ForgotPasswordPage();
+        break;
       default:
         this.navigateTo('login');
         return;
     }
 
-    this.appContainer.innerHTML = this.currentPage.render();
+    const renderedContent = await this.currentPage.render();
+    this.appContainer.innerHTML = renderedContent;
     this.currentPage.bindEvents();
 
     if (push) {

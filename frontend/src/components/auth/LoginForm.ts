@@ -50,7 +50,9 @@ export class LoginForm {
                                id="password" 
                                name="password" 
                                required>
-                        <div class="form-text">Esqueceu a senha?</div>
+                        <div class="form-text">
+                          <a href="#" id="forgotPassword" class="auth-link-action">Esqueceu a senha?</a>
+                        </div>
                       </div>
                       
                       <div class="d-grid mb-3">
@@ -77,6 +79,7 @@ export class LoginForm {
   bindEvents(): void {
     const form = document.getElementById('loginForm') as HTMLFormElement;
     const switchToRegister = document.getElementById('switchToRegister') as HTMLAnchorElement;
+    const forgotPassword = document.getElementById('forgotPassword') as HTMLAnchorElement;
     const errorMessage = document.getElementById('errorMessage') as HTMLDivElement;
     
     form?.addEventListener('submit', async (e) => {
@@ -106,6 +109,11 @@ export class LoginForm {
     switchToRegister?.addEventListener('click', (e) => {
       e.preventDefault();
       window.dispatchEvent(new CustomEvent('switchToRegister'));
+    });
+
+    forgotPassword?.addEventListener('click', (e) => {
+      e.preventDefault();
+      window.dispatchEvent(new CustomEvent('navigateToForgotPassword'));
     });
   }
 
