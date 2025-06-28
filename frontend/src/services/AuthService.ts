@@ -18,7 +18,7 @@ export class AuthService {
         headers: {
           'Content-Type': 'application/json',
         },
-        credentials: 'include', 
+        credentials: 'include',
         body: JSON.stringify(credentials),
       });
 
@@ -29,13 +29,13 @@ export class AuthService {
 
       const authResponse = await response.json();
       console.log("[login] authResponse: ", authResponse);
-
+      
       this.saveUserInfo(authResponse.user);
-
+      
       if (authResponse.token) {
         this.saveToken(authResponse.token);
       }
-
+      
       return authResponse;
     } catch (error) {
       throw error;
@@ -49,23 +49,23 @@ export class AuthService {
         headers: {
           'Content-Type': 'application/json',
         },
-        credentials: 'include', 
+        credentials: 'include',
         body: JSON.stringify(userData),
       });
-      
+     
       if (!response.ok) {
         const error = await response.json();
         throw new Error(error.message || 'Erro ao cadastrar usuário');
       }
-
+      
       const authResponse = await response.json();
-      
+     
       this.saveUserInfo(authResponse.user);
-      
+     
       if (authResponse.token) {
         this.saveToken(authResponse.token);
       }
-      
+     
       return authResponse;
     } catch (error) {
       throw error;
@@ -76,7 +76,7 @@ export class AuthService {
     try {
       const response = await fetch(`${this.baseUrl}/check`, {
         method: 'GET',
-        credentials: 'include', 
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -89,6 +89,7 @@ export class AuthService {
           return true;
         }
       }
+      
       return false;
     } catch (error) {
       console.error('Erro ao verificar status de autenticação:', error);
@@ -98,17 +99,51 @@ export class AuthService {
 
   async logout(): Promise<void> {
     try {
-      await fetch(`${this.baseUrl}/logout`, {
+      const response = await fetch(`${this.baseUrl}/logout`, {
         method: 'POST',
         credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
         },
       });
+
+      if (!response.ok) {
+        console.warn('Resposta não OK do servidor no logout:', response.status);
+      }
+
+      const data = await response.json();
+      console.log('Logout response:', data);
+      
     } catch (error) {
       console.error('Erro ao fazer logout:', error);
     } finally {
       this.removeToken();
+    }
+  }
+
+  async deleteAccount(userId: string): Promise<void> {
+    try {
+      const response = await fetch(`/api/users/${userId}`, {
+        method: 'DELETE',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || 'Erro ao excluir conta');
+      }
+
+      const data = await response.json();
+      console.log('Delete account response:', data);
+      
+      this.removeToken();
+      
+    } catch (error) {
+      console.error('Erro ao excluir conta:', error);
+      throw error; 
     }
   }
 
