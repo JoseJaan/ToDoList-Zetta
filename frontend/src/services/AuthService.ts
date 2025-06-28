@@ -32,9 +32,10 @@ export class AuthService {
       
       this.saveUserInfo(authResponse.user);
       
-      if (authResponse.token) {
-        this.saveToken(authResponse.token);
-      }
+      // Não salvamos o token localmente, pois ele está no cookie httpOnly
+      // if (authResponse.token) {
+      //   this.saveToken(authResponse.token);
+      // }
       
       return authResponse;
     } catch (error) {
@@ -62,10 +63,6 @@ export class AuthService {
      
       this.saveUserInfo(authResponse.user);
      
-      if (authResponse.token) {
-        this.saveToken(authResponse.token);
-      }
-     
       return authResponse;
     } catch (error) {
       throw error;
@@ -90,9 +87,11 @@ export class AuthService {
         }
       }
       
+      this.clearUserInfo();
       return false;
     } catch (error) {
       console.error('Erro ao verificar status de autenticação:', error);
+      this.clearUserInfo();
       return false;
     }
   }
@@ -117,7 +116,7 @@ export class AuthService {
     } catch (error) {
       console.error('Erro ao fazer logout:', error);
     } finally {
-      this.removeToken();
+      this.clearUserInfo();
     }
   }
 
@@ -139,7 +138,7 @@ export class AuthService {
       const data = await response.json();
       console.log('Delete account response:', data);
       
-      this.removeToken();
+      this.clearUserInfo();
       
     } catch (error) {
       console.error('Erro ao excluir conta:', error);
@@ -148,34 +147,64 @@ export class AuthService {
   }
 
   saveToken(token: string): void {
-    (window as any).__auth_token = token;
+    //O token está seguro no cookie httpOnly
+    console.log('Token será gerenciado via cookie httpOnly');
   }
 
   getToken(): string | null {
-    return (window as any).__auth_token || null;
+    //Não podemos acessar cookies httpOnly do JavaScript
+    //A autenticação é verificada via checkAuthStatus()
+    return null;
   }
 
   removeToken(): void {
-    delete (window as any).__auth_token;
-    delete (window as any).__user_info;
+    this.clearUserInfo();
   }
 
   isAuthenticated(): boolean {
-    const hasLocalToken = !!this.getToken();
-    const hasUserInfo = !!this.getUserInfo();
-    return hasLocalToken || hasUserInfo;
+    return !!this.getUserInfo();
   }
 
   saveUserInfo(user: any): void {
-    (window as any).__user_info = user;
+    try {
+      localStorage.setItem('user_info', JSON.stringify(user));
+      (window as any).__user_info = user;
+    } catch (error) {
+      console.warn('Erro ao salvar no localStorage, usando apenas memória:', error);
+      (window as any).__user_info = user;
+    }
   }
 
   getUserInfo(): any {
-    return (window as any).__user_info || null;
+    try {
+      let userInfo = (window as any).__user_info;
+      
+      if (!userInfo) {
+        const stored = localStorage.getItem('user_info');
+        if (stored) {
+          userInfo = JSON.parse(stored);
+          (window as any).__user_info = userInfo; // Sincroniza com a memória
+        }
+      }
+      
+      return userInfo || null;
+    } catch (error) {
+      console.warn('Erro ao recuperar informações do usuário:', error);
+      return (window as any).__user_info || null;
+    }
   }
 
   getUserNickname(): string | null {
     const userInfo = this.getUserInfo();
     return userInfo?.displayName || userInfo?.name || null;
+  }
+
+  private clearUserInfo(): void {
+    try {
+      localStorage.removeItem('user_info');
+    } catch (error) {
+      console.warn('Erro ao limpar localStorage:', error);
+    }
+    delete (window as any).__user_info;
   }
 }
