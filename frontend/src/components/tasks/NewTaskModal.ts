@@ -28,7 +28,7 @@ export class NewTaskModal {
                 </div>
 
                 <div class="mb-3">
-                  <label for="taskDescription" class="form-label">Descrição</label>
+                  <label for="taskDescription" class="form-label">Descrição *</label>
                   <textarea class="form-control" id="taskDescription" name="description" rows="3" placeholder="Descreva sua tarefa..."></textarea>
                 </div>
 
@@ -97,7 +97,6 @@ export class NewTaskModal {
   }
 
   private getTaskDataFromForm(formData: FormData): Omit<Task, 'id' | 'createdAt' | 'updatedAt' | 'expanded'> {
-    const dueDate = formData.get('dueDate') as string;
     const name = formData.get('name');
     if (!name || typeof name !== 'string' || name.trim() === '') {
       throw new Error('O nome da tarefa é obrigatório.');

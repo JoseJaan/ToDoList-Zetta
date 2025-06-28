@@ -31,12 +31,11 @@ export class TaskService {
         throw new Error('Erro ao carregar tarefas');
       }
 
-      const tasks = await response.json();
-      return tasks.map((task: any) => ({
+      const data = await response.json();
+      return data.tasks.map((task: Task) => ({
         ...task,
         createdAt: new Date(task.createdAt),
         updatedAt: new Date(task.updatedAt),
-        dueDate: task.dueDate ? new Date(task.dueDate) : undefined,
         expanded: false
       }));
     } catch (error) {
@@ -59,12 +58,12 @@ export class TaskService {
         throw new Error('Erro ao criar tarefa');
       }
 
-      const task = await response.json();
+      const responseData = await response.json();
+      const task = responseData.task;
       return {
         ...task,
         createdAt: new Date(task.createdAt),
         updatedAt: new Date(task.updatedAt),
-        dueDate: task.dueDate ? new Date(task.dueDate) : undefined,
         expanded: false
       };
     } catch (error) {
@@ -82,7 +81,7 @@ export class TaskService {
         },
         body: JSON.stringify(taskData)
       });
-
+      console.log("[updateTask] response: ",response)
       if (!response.ok) {
         throw new Error('Erro ao atualizar tarefa');
       }
@@ -91,8 +90,7 @@ export class TaskService {
       return {
         ...task,
         createdAt: new Date(task.createdAt),
-        updatedAt: new Date(task.updatedAt),
-        dueDate: task.dueDate ? new Date(task.dueDate) : undefined
+        updatedAt: new Date(task.updatedAt)
       };
     } catch (error) {
       throw error;

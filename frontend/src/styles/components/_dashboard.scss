@@ -1,4 +1,3 @@
-// Dashboard Styles
 $dashboard-primary: #20b2aa;
 $dashboard-secondary: #ffd700;
 $dashboard-success: #28a745;
@@ -184,8 +183,8 @@ $dashboard-info: #17a2b8;
     background: none;
     border: 1px solid #dee2e6;
     color: #666;
-    width: 30px;
-    height: 30px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -210,11 +209,6 @@ $dashboard-info: #17a2b8;
 
   .task-status-select {
     font-size: 0.85rem;
-  }
-
-  .task-due-date,
-  .task-priority {
-    margin-bottom: 0.5rem;
   }
 }
 

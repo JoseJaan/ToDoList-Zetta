@@ -1,5 +1,6 @@
 import { Task, TaskStatus } from '../../types/Task';
 import { TaskService } from '../../services/TaskService';
+import { EditTaskModal } from './EditTaskModal';
 
 export class TaskCard {
   private task: Task;
@@ -30,9 +31,11 @@ export class TaskCard {
           <div class="task-card-actions">
             <button class="btn btn-sm btn-outline-primary task-edit-btn" title="Editar">
               <i class="fas fa-edit"></i>
+              <span class="btn-text">Editar</span>
             </button>
             <button class="btn btn-sm btn-outline-danger task-delete-btn" title="Excluir">
               <i class="fas fa-trash"></i>
+              <span class="btn-text">Excluir</span>
             </button>
           </div>
         </div>
@@ -52,6 +55,7 @@ export class TaskCard {
           <div class="task-card-toggle">
             <button class="btn btn-sm task-toggle-btn" title="Expandir/Recolher">
               <i class="fas fa-chevron-${this.task.expanded ? 'up' : 'down'}"></i>
+              <span class="btn-text">${this.task.expanded ? 'Ver menos' : 'Ver mais'}</span>
             </button>
           </div>
         </div>
@@ -131,23 +135,35 @@ export class TaskCard {
   }
 
   private async updateStatus(newStatus: TaskStatus): Promise<void> {
-    try {
-      const updatedTask = await this.taskService.updateTask({
-        ...this.task,
-        status: newStatus
-      });
-      this.task = updatedTask;
-      this.onUpdate(updatedTask);
-    } catch (error) {
-      console.error('Erro ao atualizar status da tarefa:', error);
-    }
+  try {
+    const updatedTask = await this.taskService.updateTask({
+      ...this.task,
+      status: newStatus
+    });
+    updatedTask.expanded = this.task.expanded;
+    this.task = updatedTask;
+    this.onUpdate(updatedTask);
+  } catch (error) {
+    console.error('Erro ao atualizar status da tarefa:', error);
   }
+}
+
 
   private editTask(): void {
-    window.dispatchEvent(new CustomEvent('editTask', {
-      detail: { task: this.task }
-    }));
-  }
+  const modalContainer = document.createElement('div');
+  document.body.appendChild(modalContainer);
+
+  const modal = new EditTaskModal(this.task, (updatedTask) => {
+    this.task = updatedTask;
+    this.onUpdate(updatedTask);
+    document.body.removeChild(modalContainer);
+  });
+
+  modalContainer.innerHTML = modal.render();
+  modal.bindEvents();
+  modal.show();
+}
+
 
   private async deleteTask(): Promise<void> {
     if (confirm('Tem certeza que deseja excluir esta tarefa?')) {

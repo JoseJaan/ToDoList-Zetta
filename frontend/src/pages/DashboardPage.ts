@@ -2,6 +2,7 @@ import { Header } from '../components/layout/Header';
 import { Footer } from '../components/layout/Footer';
 import { TaskCard } from '../components/tasks/TaskCard';
 import { NewTaskModal } from '../components/tasks/NewTaskModal';
+import { EditTaskModal } from '../components/tasks/EditTaskModal';
 import { TaskService } from '../services/TaskService';
 import { AuthService } from '../services/AuthService';
 import { Task } from '../types/Task';
@@ -104,6 +105,23 @@ export class DashboardPage {
       this.newTaskModal.show();
     });
 
+    window.addEventListener('editTask', (event: Event) => {
+      const customEvent = event as CustomEvent;
+      const task = customEvent.detail.task as Task;
+
+      const container = document.createElement('div');
+      document.body.appendChild(container);
+
+      const modal = new EditTaskModal(task, (updatedTask) => {
+        this.updateTask(updatedTask);
+        document.body.removeChild(container);
+      });
+
+      container.innerHTML = modal.render();
+      modal.bindEvents();
+      modal.show();
+    });
+
     this.loadTasks();
   }
 
@@ -152,9 +170,6 @@ export class DashboardPage {
 
   private getRandomGreeting(): string {
     const greetings = [
-      'Bom dia',
-      'Boa tarde',
-      'Boa noite',
       'Olá',
       'E aí',
       'Oi',

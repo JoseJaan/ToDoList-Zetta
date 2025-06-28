@@ -2,15 +2,13 @@ export interface CreateUserRequest {
   name: string;
   email: string;
   password: string;
-  profileImage?: string;
-  displayName?: string;
+  displayName: string;
 }
 
 export interface UpdateUserRequest {
   name?: string;
   email?: string;
   password?: string;
-  profileImage?: string;
 }
 
 export class UserValidation {
@@ -49,11 +47,7 @@ export class UserValidation {
       errors.push('Senha deve ter pelo menos 6 caracteres');
     }
 
-    if (data.profileImage && (typeof data.profileImage !== 'string' || !this.isValidUrl(data.profileImage))) {
-      errors.push('URL da imagem de perfil deve ser válida');
-    }
-
-    const allowedFields = ['name', 'email', 'password', 'profileImage'];
+    const allowedFields = ['name', 'email', 'password', 'displayName'];
     const extraFields = Object.keys(data).filter(key => !allowedFields.includes(key));
     if (extraFields.length > 0) {
       errors.push(`Campos não permitidos: ${extraFields.join(', ')}`);
