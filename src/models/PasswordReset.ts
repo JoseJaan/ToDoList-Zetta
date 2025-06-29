@@ -1,6 +1,9 @@
 import { DataTypes, Model, Optional } from 'sequelize';
 import sequelize from '../config/database';
 import crypto from 'crypto';
+import moment from 'moment-timezone';
+
+const BRAZIL_TIMEZONE = 'America/Sao_Paulo';
 
 interface PasswordResetAttributes {
   id: string;
@@ -14,28 +17,43 @@ interface PasswordResetAttributes {
 
 interface PasswordResetCreationAttributes extends Optional<PasswordResetAttributes, 'id' | 'used'> {}
 
-class PasswordReset extends Model<PasswordResetAttributes, PasswordResetCreationAttributes> 
+class PasswordReset extends Model<PasswordResetAttributes, PasswordResetCreationAttributes>
   implements PasswordResetAttributes {
   public id!: string;
   public userId!: string;
   public token!: string;
   public expiresAt!: Date;
   public used!: boolean;
-  public readonly createdAt!: Date;
-  public readonly updatedAt!: Date;
+  public createdAt!: Date;
+  public updatedAt!: Date;
+
+  private static getBrazilianTime(): Date {
+    return moment.tz(BRAZIL_TIMEZONE).toDate();
+  }
 
   public static generateToken(): string {
     return crypto.randomBytes(32).toString('hex');
   }
 
   public static getExpirationTime(): Date {
-    const expiration = new Date();
-    expiration.setHours(expiration.getHours() + 1); // Token válido por 1 hora
-    return expiration;
+    return moment.tz(BRAZIL_TIMEZONE).add(1, 'hour').toDate();
   }
 
   public isExpired(): boolean {
-    return new Date() > this.expiresAt;
+    const currentTime = PasswordReset.getBrazilianTime();
+    return currentTime > this.expiresAt;
+  }
+
+  public getCreatedAtBrazil(): string {
+    return moment(this.createdAt).tz(BRAZIL_TIMEZONE).format('DD/MM/YYYY HH:mm:ss');
+  }
+
+  public getUpdatedAtBrazil(): string {
+    return moment(this.updatedAt).tz(BRAZIL_TIMEZONE).format('DD/MM/YYYY HH:mm:ss');
+  }
+
+  public getExpiresAtBrazil(): string {
+    return moment(this.expiresAt).tz(BRAZIL_TIMEZONE).format('DD/MM/YYYY HH:mm:ss');
   }
 }
 
@@ -68,12 +86,32 @@ PasswordReset.init(
       type: DataTypes.BOOLEAN,
       defaultValue: false,
     },
+    createdAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: () => moment.tz(BRAZIL_TIMEZONE).toDate(),
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: () => moment.tz(BRAZIL_TIMEZONE).toDate(),
+    },
   },
   {
     sequelize,
     modelName: 'PasswordReset',
     tableName: 'password_resets',
     timestamps: true,
+    hooks: {
+      beforeUpdate: (instance: PasswordReset) => {
+        instance.updatedAt = moment.tz(BRAZIL_TIMEZONE).toDate();
+      },
+      beforeCreate: (instance: PasswordReset) => {
+        const brazilTime = moment.tz(BRAZIL_TIMEZONE).toDate();
+        instance.createdAt = brazilTime;
+        instance.updatedAt = brazilTime;
+      },
+    }
   }
 );
 

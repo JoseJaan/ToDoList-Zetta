@@ -131,6 +131,7 @@ export class AuthController {
         return;
       }
 
+      //Marca todos os tokens anteriores como usados
       await PasswordReset.update(
         { used: true },
         { where: { userId: user.id, used: false } }
@@ -142,7 +143,7 @@ export class AuthController {
       await PasswordReset.create({
         userId: user.id,
         token,
-        expiresAt,
+        expiresAt
       });
 
       await emailService.sendPasswordResetEmail(user.email, token, user.name);
@@ -208,11 +209,12 @@ export class AuthController {
         });
         return;
       }
+
       user.password = newPassword;
       await user.save();
 
       passwordReset.used = true;
-      await passwordReset.save();
+      await passwordReset.save(); 
 
       res.status(200).json({
         message: 'Senha redefinida com sucesso'
@@ -228,47 +230,51 @@ export class AuthController {
   }
 
   async validateResetToken(req: Request, res: Response): Promise<void> {
-    try {
-      const { token } = req.params;
+  try {
+    const { token } = req.params;
 
-      if (!token) {
-        res.status(400).json({
-          error: 'Dados inválidos',
-          message: 'Token é obrigatório'
-        });
-        return;
-      }
-
-      const passwordReset = await PasswordReset.findOne({
-        where: { token, used: false }
+    if (!token) {
+      res.status(400).json({
+        error: 'Dados inválidos',
+        message: 'Token é obrigatório'
       });
-
-      if (!passwordReset) {
-        res.status(400).json({
-          error: 'Token inválido',
-          message: 'Token inválido ou já utilizado'
-        });
-        return;
-      }
-
-      if (passwordReset.isExpired()) {
-        res.status(400).json({
-          error: 'Token expirado',
-          message: 'Token expirado'
-        });
-        return;
-      }
-
-      res.status(200).json({
-        message: 'Token válido'
-      });
-
-    } catch (error: any) {
-      console.error('Erro em validateResetToken:', error);
-      res.status(500).json({
-        error: 'Erro interno do servidor',
-        message: 'Erro ao validar token'
-      });
+      return;
     }
+
+    const passwordReset = await PasswordReset.findOne({
+      where: { token, used: false }
+    });
+
+    if (!passwordReset) {
+      res.status(400).json({
+        error: 'Token inválido',
+        message: 'Token inválido ou já utilizado'
+      });
+      return;
+    }
+
+    if (passwordReset.isExpired()) {
+      res.status(400).json({
+        error: 'Token expirado',
+        message: 'Token expirado'
+      });
+      return;
+    }
+
+    res.status(200).json({
+      message: 'Token válido',
+      tokenInfo: {
+        createdAt: passwordReset.getCreatedAtBrazil(),
+        expiresAt: passwordReset.getExpiresAtBrazil()
+      }
+    });
+
+  } catch (error: any) {
+    console.error('Erro em validateResetToken:', error);
+    res.status(500).json({
+      error: 'Erro interno do servidor',
+      message: 'Erro ao validar token'
+    });
+  }
   }
 }
