@@ -148,7 +148,6 @@ export class AuthService {
 
   saveToken(token: string): void {
     //O token está seguro no cookie httpOnly
-    console.log('Token será gerenciado via cookie httpOnly');
   }
 
   getToken(): string | null {
