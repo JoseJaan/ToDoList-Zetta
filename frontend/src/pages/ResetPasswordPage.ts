@@ -7,6 +7,7 @@ export class ResetPasswordPage {
 
   constructor(token: string) {
     this.token = token;
+    console.log("Token no construtor: ",token)
     this.resetPasswordForm = new ResetPasswordForm(
       token,
       () => {

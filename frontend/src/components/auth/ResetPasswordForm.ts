@@ -7,10 +7,12 @@ export class ResetPasswordForm {
   private onInvalidToken: () => void;
 
   constructor(token: string, onSuccess: () => void, onInvalidToken: () => void) {
+    
     this.authService = AuthService.getInstance();
     this.token = token;
     this.onSuccess = onSuccess;
     this.onInvalidToken = onInvalidToken;
+    console.log("Toke no construtor ResetPass: ", token)
   }
 
   async validateToken(): Promise<boolean> {

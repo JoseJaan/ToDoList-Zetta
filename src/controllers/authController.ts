@@ -163,8 +163,9 @@ export class AuthController {
 
   async resetPassword(req: Request, res: Response): Promise<void> {
     try {
+      console.log("[resetPassword] Chegou ao controller")
       const { token, newPassword } = req.body;
-
+      console.log("[resetPassword] Chegou ao controller")
       if (!token || !newPassword) {
         res.status(400).json({
           error: 'Dados inválidos',

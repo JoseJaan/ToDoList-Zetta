@@ -67,7 +67,9 @@ export class Router {
 
     window.addEventListener('navigateToResetPassword', (e: any) => {
       const token = e.detail?.token;
+      console.log("Token no event listener: ", token)
       if (token) {
+        console.log("Teste")
         this.navigateTo('reset', true, token);
       }
     });
@@ -90,13 +92,11 @@ export class Router {
   }
 
   async navigateTo(route: string, push: boolean = true, token?: string): Promise<void> {
-    if (!this.isInitializing) {
-      if (route === 'dashboard') {
-        const isAuthenticated = await this.authService.checkAuthStatus();
-        if (!isAuthenticated) {
-          this.navigateTo('login');
-          return;
-        }
+    if (!this.isInitializing && route === 'dashboard') {
+      const isAuthenticated = await this.authService.checkAuthStatus();
+      if (!isAuthenticated) {
+        this.navigateTo('login');
+        return;
       }
     }
 
@@ -104,8 +104,13 @@ export class Router {
       this.currentPage.destroy();
     }
 
+    // 🔧 Extração do token da URL no caso do reset
     if (route.includes('reset')) {
-      this.currentPage = new ResetPasswordPage(token ?? '');
+      if (!token) {
+        const hashParams = new URLSearchParams(window.location.hash.split('?')[1]);
+        token = hashParams.get('token') ?? '';
+      }
+      this.currentPage = new ResetPasswordPage(token);
     } else {
       switch (route) {
         case 'login':
@@ -132,9 +137,14 @@ export class Router {
     this.currentPage.bindEvents();
 
     if (push) {
-      window.history.pushState({ route }, '', `#${route}`);
+      if (token && route === 'reset') {
+        window.history.pushState({ route }, '', `#reset?token=${token}`);
+      } else {
+        window.history.pushState({ route }, '', `#${route}`);
+      }
     }
-    
+
     console.log(`[Router] Successfully navigated to: ${route}`);
   }
+
 }
