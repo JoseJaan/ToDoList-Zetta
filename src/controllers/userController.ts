@@ -12,18 +12,14 @@ export class UserController {
 
   async create(req: Request, res: Response): Promise<void> {
     try {
-      console.log("[userController.create]: Chegou no controller")
       const validation = UserValidation.validateCreateUser(req.body);
-      console.log("[userController.create]: Dados: ",req.body)
       if (!validation.isValid) {
-        console.log("[userController.create]: Dados inválidos", validation.errors)
         res.status(400).json({
           error: 'Dados inválidos',
           details: validation.errors
         });
         return;
       }
-      console.log("[userController.create]: Dados são válidos")
       let imageUrl: string | undefined = undefined;
     
       if (req.file) {

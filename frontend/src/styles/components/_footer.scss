@@ -1,53 +1,85 @@
-$footer-bg: #343a40;
-$footer-text: #adb5bd;
-$footer-link: #20b2aa;
+// ==========================================
+// VARIÁVEIS SCSS LOCAIS
+// ==========================================
+// Cores específicas do footer para manter consistência visual
+$footer-bg: #343a40;    // Cor de fundo do footer (cinza escuro)
+$footer-text: #adb5bd;  // Cor do texto principal (cinza médio para legibilidade)
+$footer-link: #20b2aa;  // Cor dos links (verde-azulado, mesma cor primária)
 
+// ==========================================
+// CONTAINER PRINCIPAL DO FOOTER
+// ==========================================
+// Estiliza o container principal do rodapé
 .app-footer {
-  background-color: $footer-bg;
-  color: $footer-text;
-  padding: 1.5rem 0;
-  margin-top: auto;
-
+  background-color: $footer-bg;  // Fundo escuro para contraste
+  color: $footer-text;           // Cor do texto padrão
+  padding: 1.5rem 0;             // Padding vertical generoso
+  margin-top: auto;              // Empurra o footer para baixo da página
+  
+  // Ajustes para dispositivos móveis
   @media (max-width: 767.98px) {
-    padding: 1rem 0;
-    text-align: center;
+    padding: 1rem 0;              // Padding reduzido em telas pequenas
+    text-align: center;           // Centraliza todo o conteúdo
   }
 
+  // ==========================================
+  // TEXTO PRINCIPAL DO FOOTER
+  // ==========================================
+  // Estiliza o texto informativo/copyright do footer
   .footer-text {
-    font-size: 0.9rem;
-    line-height: 1.5;
-
+    font-size: 0.9rem;            // Tamanho de fonte menor que o padrão
+    line-height: 1.5;             // Altura da linha para melhor legibilidade
+    
+    // Ajustes específicos para mobile
     @media (max-width: 767.98px) {
-      margin-bottom: 0.75rem !important;
+      margin-bottom: 0.75rem !important; // Adiciona espaço entre texto e links
     }
   }
 
+  // ==========================================
+  // CONTAINER DE LINKS DO FOOTER
+  // ==========================================
+  // Área que contém os links de navegação secundária
   .footer-links {
-    display: flex;
-    justify-content: flex-end;
-    gap: 1.5rem;
-
+    display: flex;                // Layout flexbox para alinhamento
+    justify-content: flex-end;    // Alinha links à direita por padrão
+    gap: 1.5rem;                  // Espaçamento entre os links
+    
+    // Ajustes para dispositivos móveis
     @media (max-width: 767.98px) {
-      justify-content: center;
-      gap: 1rem;
+      justify-content: center;    // Centraliza links em telas pequenas
+      gap: 1rem;                  // Reduz espaçamento entre links
     }
 
+    // ==========================================
+    // LINKS INDIVIDUAIS DO FOOTER
+    // ==========================================
+    // Estiliza cada link dentro do footer
     .footer-link {
-      color: $footer-link;
-      text-decoration: none;
-      font-size: 0.9rem;
-      transition: all 0.3s ease;
-
+      color: $footer-link;               // Cor primária dos links
+      text-decoration: none;             // Remove sublinhado padrão
+      font-size: 0.9rem;                 // Tamanho de fonte consistente
+      transition: all 0.3s ease;         // Transição suave para efeitos hover
+      
+      // Efeito hover para melhor interatividade
       &:hover {
-        color: lighten($footer-link, 15%);
-        text-decoration: underline;
+        color: lighten($footer-link, 15%); // Clareia a cor no hover
+        text-decoration: underline;        // Adiciona sublinhado no hover
       }
     }
   }
 }
 
+// ==========================================
+// LAYOUT GERAL DA PÁGINA COM FOOTER
+// ==========================================
+// Configuração para páginas que usam o footer
+// Garante que o footer fique sempre na parte inferior da página
 .dashboard-page {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
+  display: flex;              // Layout flexbox
+  flex-direction: column;     // Organiza elementos em coluna
+  min-height: 100vh;          // Altura mínima de 100% da viewport
+  
+  // O margin-top: auto no .app-footer fará com que ele
+  // seja empurrado para baixo, criando um sticky footer
 }

@@ -32,7 +32,7 @@ export class AuthController {
         maxAge: 24 * 60 * 60 * 1000, // 24 horas em millisegundos
         path: '/', 
       });
-      console.log("[login] result.user: ",result.user)
+      
       res.status(200).json({
         message: 'Login realizado com sucesso',
         user: result.user,
@@ -163,9 +163,7 @@ export class AuthController {
 
   async resetPassword(req: Request, res: Response): Promise<void> {
     try {
-      console.log("[resetPassword] Chegou ao controller")
       const { token, newPassword } = req.body;
-      console.log("[resetPassword] Chegou ao controller")
       if (!token || !newPassword) {
         res.status(400).json({
           error: 'Dados inválidos',

@@ -65,31 +65,24 @@ export class AuthService {
   }
 
   verifyToken(token: string): JwtPayload {
-  try {
-    const tokenParts = token.split('.');
+    try {
+      const tokenParts = token.split('.');
 
-    if (tokenParts.length !== 3) {
-      throw new Error('Token malformado');
+      if (tokenParts.length !== 3) {
+        throw new Error('Token malformado');
+      }
+      const decoded = verify(token, this.jwtSecret) as JwtPayloadType;
+      return decoded as JwtPayload;
+    } catch (error: any) {
+      if (error.name === 'TokenExpiredError') {
+        throw new Error('Token expirado');
+      }
+      if (error.name === 'JsonWebTokenError') {
+        throw new Error('Token inválido');
+      }
+      throw new Error('Erro ao verificar token');
     }
-    const decoded = verify(token, this.jwtSecret) as JwtPayloadType;
-    return decoded as JwtPayload;
-  } catch (error: any) {
-    console.log("[verifyToken] error details: ", {
-      name: error.name,
-      message: error.message,
-      stack: error.stack?.split('\n')[0]
-    });
-    
-    if (error.name === 'TokenExpiredError') {
-      throw new Error('Token expirado');
-    }
-    if (error.name === 'JsonWebTokenError') {
-      console.log("[verifyToken] JsonWebTokenError details: ", error.message);
-      throw new Error('Token inválido');
-    }
-    throw new Error('Erro ao verificar token');
   }
-}
 
   async getUserFromToken(token: string): Promise<User> {
     try {
