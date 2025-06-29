@@ -95,7 +95,7 @@ export class ForgotPasswordForm {
 
     backToLogin?.addEventListener('click', (e) => {
       e.preventDefault();
-      this.onBackToLogin();
+      window.dispatchEvent(new CustomEvent('switchToLogin'));
     });
   }
 

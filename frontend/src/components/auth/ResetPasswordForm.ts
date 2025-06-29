@@ -97,7 +97,6 @@ export class ResetPasswordForm {
     const newPasswordInput = document.getElementById('newPassword') as HTMLInputElement;
     const confirmPasswordInput = document.getElementById('confirmPassword') as HTMLInputElement;
     
-    // Validação em tempo real das senhas
     const validatePasswords = () => {
       const newPassword = newPasswordInput.value;
       const confirmPassword = confirmPasswordInput.value;
@@ -145,7 +144,8 @@ export class ResetPasswordForm {
 
     backToLogin?.addEventListener('click', (e) => {
       e.preventDefault();
-      window.dispatchEvent(new CustomEvent('navigateToLogin'));
+      console.log("[backToLogin] Detectou");
+      window.dispatchEvent(new CustomEvent('switchToLogin'));
     });
   }
 

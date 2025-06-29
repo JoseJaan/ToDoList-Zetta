@@ -3,6 +3,7 @@ import { ResetPasswordForm } from '../components/auth/ResetPasswordForm';
 export class ResetPasswordPage {
   private resetPasswordForm: ResetPasswordForm;
   private token: string;
+  private isTokenValid: boolean = false;
 
   constructor(token: string) {
     this.token = token;
@@ -21,9 +22,9 @@ export class ResetPasswordPage {
 
   async render(): Promise<string> {
     //Valida o token antes de renderizar
-    const isValidToken = await this.resetPasswordForm.validateToken();
+    this.isTokenValid = await this.resetPasswordForm.validateToken();
     
-    if (!isValidToken) {
+    if (!this.isTokenValid) {
       return this.renderInvalidToken();
     }
 
@@ -35,10 +36,32 @@ export class ResetPasswordPage {
   }
 
   bindEvents(): void {
-    this.resetPasswordForm.bindEvents();
+    if (this.isTokenValid) {
+      this.resetPasswordForm.bindEvents();
+    } else {
+      this.bindInvalidTokenEvents();
+    }
+  }
+
+  private bindInvalidTokenEvents(): void {
+    console.log("Ta aqui")
+    const requestNewResetBtn = document.getElementById('requestNewReset');
+    const backToLoginBtn = document.getElementById('backToLogin');
+
+    requestNewResetBtn?.addEventListener('click', (e) => {
+      console.log("Identificou clique")
+      e.preventDefault();
+      window.dispatchEvent(new CustomEvent('navigateToForgotPassword'));
+    });
+
+    backToLoginBtn?.addEventListener('click', (e) => {
+      e.preventDefault();
+      window.dispatchEvent(new CustomEvent('switchToLogin'));
+    });
   }
 
   destroy(): void {
+    // Cleanup se necessário
   }
 
   private renderInvalidToken(): string {
@@ -109,7 +132,6 @@ export class ResetPasswordPage {
         </div>
       `;
 
-
       let seconds = 5;
       const countdownElement = document.getElementById('countdown');
       const countdownInterval = setInterval(() => {
@@ -119,14 +141,14 @@ export class ResetPasswordPage {
         }
         if (seconds <= 0) {
           clearInterval(countdownInterval);
-          window.dispatchEvent(new CustomEvent('navigateToLogin'));
+          window.dispatchEvent(new CustomEvent('switchToLogin'));
         }
       }, 1000);
 
       const goToLoginBtn = document.getElementById('goToLogin');
       goToLoginBtn?.addEventListener('click', () => {
         clearInterval(countdownInterval);
-        window.dispatchEvent(new CustomEvent('navigateToLogin'));
+        window.dispatchEvent(new CustomEvent('switchToLogin'));
       });
     }
   }

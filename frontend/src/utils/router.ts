@@ -29,7 +29,6 @@ export class Router {
       
       const hash = window.location.hash.replace('#', '');
       let initialRoute = hash;
-      
       // Se não há rota específica na URL, decide baseado na autenticação
       if (!initialRoute) {
         initialRoute = isAuthenticated ? 'dashboard' : 'login';
@@ -44,7 +43,6 @@ export class Router {
       if (isAuthenticated && (initialRoute === 'login' || initialRoute === 'register')) {
         initialRoute = 'dashboard';
       }
-      
       this.navigateTo(initialRoute);
     } catch (error) {
       console.error('Erro ao verificar autenticação:', error);
@@ -63,13 +61,14 @@ export class Router {
     });
 
     window.addEventListener('navigateToForgotPassword', () => {
+      console.log('[Router] navigateToForgotPassword event received');
       this.navigateTo('forgot');
     });
 
     window.addEventListener('navigateToResetPassword', (e: any) => {
       const token = e.detail?.token;
       if (token) {
-        this.navigateTo('reset',token);
+        this.navigateTo('reset', true, token);
       }
     });
 
@@ -105,25 +104,27 @@ export class Router {
       this.currentPage.destroy();
     }
 
-    switch (route) {
-      case 'login':
-        this.currentPage = new LoginPage();
-        break;
-      case 'register':
-        this.currentPage = new RegisterPage();
-        break;
-      case 'dashboard':
-        this.currentPage = new DashboardPage();
-        break;
-      case 'reset':
-        this.currentPage = new ResetPasswordPage(token ?? '');
-        break;
-      case 'forgot':
-        this.currentPage = new ForgotPasswordPage();
-        break;
-      default:
-        this.navigateTo('login');
-        return;
+    if (route.includes('reset')) {
+      this.currentPage = new ResetPasswordPage(token ?? '');
+    } else {
+      switch (route) {
+        case 'login':
+          this.currentPage = new LoginPage();
+          break;
+        case 'register':
+          this.currentPage = new RegisterPage();
+          break;
+        case 'dashboard':
+          this.currentPage = new DashboardPage();
+          break;
+        case 'forgot':
+          this.currentPage = new ForgotPasswordPage();
+          break;
+        default:
+          console.log(`[Router] Unknown route: ${route}, redirecting to login`);
+          this.navigateTo('login');
+          return;
+      }
     }
 
     const renderedContent = await this.currentPage.render();
@@ -133,5 +134,7 @@ export class Router {
     if (push) {
       window.history.pushState({ route }, '', `#${route}`);
     }
+    
+    console.log(`[Router] Successfully navigated to: ${route}`);
   }
 }

@@ -17,7 +17,7 @@ class EmailService {
   }
 
   async sendPasswordResetEmail(email: string, token: string, userName: string): Promise<void> {
-    const resetUrl = `${process.env.FRONTEND_URL || 'http://localhost:3000'}/api/auth/reset-password?token=${token}`;
+    const resetUrl = `${process.env.RESET_PASSWORD_URL || 'http://localhost:3001'}/#reset?token=${token}`;
     
     const mailOptions = {
       from: `"Zetta ToDoList" <${process.env.GMAIL_USER}>`,
