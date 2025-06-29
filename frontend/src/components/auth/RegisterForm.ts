@@ -58,7 +58,7 @@ export class RegisterForm {
                                class="form-control auth-input" 
                                id="displayName" 
                                name="displayName" 
-                               placeholder="Nome de exibição (opcional)">
+                               placeholder="Nome de exibição">
                       </div>
                       
                       <div class="d-grid mb-3">

@@ -1,13 +1,12 @@
-import { LoginCredentials } from '../../types/Auth';
 import { AuthService } from '../../services/AuthService';
 
-export class LoginForm {
+export class ForgotPasswordForm {
   private authService: AuthService;
-  private onSuccess: () => void;
+  private onBackToLogin: () => void;
 
-  constructor(onSuccess: () => void) {
+  constructor(onBackToLogin: () => void) {
     this.authService = AuthService.getInstance();
-    this.onSuccess = onSuccess;
+    this.onBackToLogin = onBackToLogin;
   }
 
   render(): string {
@@ -18,7 +17,7 @@ export class LoginForm {
           <div class="col-lg-6 d-none d-lg-block auth-image-section">
             <div class="auth-image-container">
               <img src="https://images.unsplash.com/photo-1611224923853-80b023f02d71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2339&q=80" 
-                   alt="Organizando tarefas" 
+                   alt="Redefinir senha" 
                    class="img-fluid h-100 w-100 object-fit-cover">
             </div>
           </div>
@@ -30,41 +29,33 @@ export class LoginForm {
                 <div class="col-11 col-sm-8 col-md-6 col-lg-10 col-xl-8">
                   <div class="auth-card">
                     <div class="text-center mb-4">
-                      <h1 class="auth-title">ToDo List</h1>
+                      <h1 class="auth-title">Esqueceu a senha?</h1>
+                      <p class="text-muted">Digite seu email para receber as instruções de redefinição</p>
                     </div>
                     
-                    <form id="loginForm" class="auth-form">
+                    <form id="forgotPasswordForm" class="auth-form">
                       <div class="mb-3">
                         <label for="email" class="form-label">Email</label>
                         <input type="email" 
                                class="form-control auth-input" 
                                id="email" 
                                name="email" 
+                               placeholder="seu@email.com"
                                required>
-                      </div>
-                      
-                      <div class="mb-3">
-                        <label for="password" class="form-label">Senha</label>
-                        <input type="password" 
-                               class="form-control auth-input" 
-                               id="password" 
-                               name="password" 
-                               required>
-                        <div class="form-text">
-                          <a href="#" id="forgotPassword" class="auth-link-action">Esqueceu a senha?</a>
-                        </div>
                       </div>
                       
                       <div class="d-grid mb-3">
-                        <button type="submit" class="btn btn-auth">Entrar</button>
+                        <button type="submit" class="btn btn-auth">Enviar Instruções</button>
                       </div>
                       
                       <div class="text-center">
-                        <span class="auth-link">Não tem uma conta? </span>
-                        <a href="#" id="switchToRegister" class="auth-link-action">Cadastre-se!</a>
+                        <a href="#" id="backToLogin" class="auth-link-action">
+                          ← Voltar para o login
+                        </a>
                       </div>
                     </form>
                     
+                    <div id="successMessage" class="alert alert-success mt-3 d-none"></div>
                     <div id="errorMessage" class="alert alert-danger mt-3 d-none"></div>
                   </div>
                 </div>
@@ -77,43 +68,34 @@ export class LoginForm {
   }
 
   bindEvents(): void {
-    const form = document.getElementById('loginForm') as HTMLFormElement;
-    const switchToRegister = document.getElementById('switchToRegister') as HTMLAnchorElement;
-    const forgotPassword = document.getElementById('forgotPassword') as HTMLAnchorElement;
-    const errorMessage = document.getElementById('errorMessage') as HTMLDivElement;
+    const form = document.getElementById('forgotPasswordForm') as HTMLFormElement;
+    const backToLogin = document.getElementById('backToLogin') as HTMLAnchorElement;
     
     form?.addEventListener('submit', async (e) => {
       e.preventDefault();
       
       const formData = new FormData(form);
-      const credentials: LoginCredentials = {
-        email: formData.get('email') as string,
-        password: formData.get('password') as string,
-      };
+      const email = formData.get('email') as string;
 
       try {
         this.showLoading(true);
-        this.hideError();
+        this.hideMessages();
         
-        const response = await this.authService.login(credentials);
-        this.authService.saveToken(response.token);
+        await this.authService.forgotPassword(email);
         
-        this.onSuccess();
+        this.showSuccess('Se o email existir em nossa base, você receberá as instruções para redefinir sua senha.');
+        form.reset();
+        
       } catch (error) {
-        this.showError(error instanceof Error ? error.message : 'Erro ao fazer login');
+        this.showError(error instanceof Error ? error.message : 'Erro ao solicitar redefinição');
       } finally {
         this.showLoading(false);
       }
     });
 
-    switchToRegister?.addEventListener('click', (e) => {
+    backToLogin?.addEventListener('click', (e) => {
       e.preventDefault();
-      window.dispatchEvent(new CustomEvent('switchToRegister'));
-    });
-
-    forgotPassword?.addEventListener('click', (e) => {
-      e.preventDefault();
-      window.dispatchEvent(new CustomEvent('navigateToForgotPassword'));
+      window.dispatchEvent(new CustomEvent('switchToLogin'));
     });
   }
 
@@ -122,8 +104,16 @@ export class LoginForm {
     if (button) {
       button.disabled = show;
       button.innerHTML = show ? 
-        '<span class="spinner-border spinner-border-sm me-2"></span>Entrando...' : 
-        'Entrar';
+        '<span class="spinner-border spinner-border-sm me-2"></span>Enviando...' : 
+        'Enviar Instruções';
+    }
+  }
+
+  private showSuccess(message: string): void {
+    const successDiv = document.getElementById('successMessage') as HTMLDivElement;
+    if (successDiv) {
+      successDiv.textContent = message;
+      successDiv.classList.remove('d-none');
     }
   }
 
@@ -135,10 +125,11 @@ export class LoginForm {
     }
   }
 
-  private hideError(): void {
+  private hideMessages(): void {
+    const successDiv = document.getElementById('successMessage') as HTMLDivElement;
     const errorDiv = document.getElementById('errorMessage') as HTMLDivElement;
-    if (errorDiv) {
-      errorDiv.classList.add('d-none');
-    }
+    
+    if (successDiv) successDiv.classList.add('d-none');
+    if (errorDiv) errorDiv.classList.add('d-none');
   }
 }

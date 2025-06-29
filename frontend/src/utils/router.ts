@@ -2,8 +2,10 @@ import { LoginPage } from '../pages/LoginPage';
 import { RegisterPage } from '../pages/RegisterPage';
 import { DashboardPage } from '../pages/DashboardPage';
 import { AuthService } from '../services/AuthService';
+import { ForgotPasswordPage } from '../pages/ForgotPasswordPage';
+import { ResetPasswordPage } from '../pages/ResetPasswordPage';
 
-type Page = LoginPage | RegisterPage | DashboardPage;
+type Page = LoginPage | RegisterPage | DashboardPage | ForgotPasswordPage | ResetPasswordPage;
 
 export class Router {
   private currentPage: Page | null = null;
@@ -27,7 +29,6 @@ export class Router {
       
       const hash = window.location.hash.replace('#', '');
       let initialRoute = hash;
-      
       // Se não há rota específica na URL, decide baseado na autenticação
       if (!initialRoute) {
         initialRoute = isAuthenticated ? 'dashboard' : 'login';
@@ -42,7 +43,6 @@ export class Router {
       if (isAuthenticated && (initialRoute === 'login' || initialRoute === 'register')) {
         initialRoute = 'dashboard';
       }
-      
       this.navigateTo(initialRoute);
     } catch (error) {
       console.error('Erro ao verificar autenticação:', error);
@@ -57,6 +57,20 @@ export class Router {
       if (!this.isInitializing) {
         const route = event.state?.route || 'login';
         this.navigateTo(route, false);
+      }
+    });
+
+    window.addEventListener('navigateToForgotPassword', () => {
+      console.log('[Router] navigateToForgotPassword event received');
+      this.navigateTo('forgot');
+    });
+
+    window.addEventListener('navigateToResetPassword', (e: any) => {
+      const token = e.detail?.token;
+      console.log("Token no event listener: ", token)
+      if (token) {
+        console.log("Teste")
+        this.navigateTo('reset', true, token);
       }
     });
 
@@ -77,14 +91,12 @@ export class Router {
     });
   }
 
-  async navigateTo(route: string, push: boolean = true): Promise<void> {
-    if (!this.isInitializing) {
-      if (route === 'dashboard') {
-        const isAuthenticated = await this.authService.checkAuthStatus();
-        if (!isAuthenticated) {
-          this.navigateTo('login');
-          return;
-        }
+  async navigateTo(route: string, push: boolean = true, token?: string): Promise<void> {
+    if (!this.isInitializing && route === 'dashboard') {
+      const isAuthenticated = await this.authService.checkAuthStatus();
+      if (!isAuthenticated) {
+        this.navigateTo('login');
+        return;
       }
     }
 
@@ -92,26 +104,47 @@ export class Router {
       this.currentPage.destroy();
     }
 
-    switch (route) {
-      case 'login':
-        this.currentPage = new LoginPage();
-        break;
-      case 'register':
-        this.currentPage = new RegisterPage();
-        break;
-      case 'dashboard':
-        this.currentPage = new DashboardPage();
-        break;
-      default:
-        this.navigateTo('login');
-        return;
+    // 🔧 Extração do token da URL no caso do reset
+    if (route.includes('reset')) {
+      if (!token) {
+        const hashParams = new URLSearchParams(window.location.hash.split('?')[1]);
+        token = hashParams.get('token') ?? '';
+      }
+      this.currentPage = new ResetPasswordPage(token);
+    } else {
+      switch (route) {
+        case 'login':
+          this.currentPage = new LoginPage();
+          break;
+        case 'register':
+          this.currentPage = new RegisterPage();
+          break;
+        case 'dashboard':
+          this.currentPage = new DashboardPage();
+          break;
+        case 'forgot':
+          this.currentPage = new ForgotPasswordPage();
+          break;
+        default:
+          console.log(`[Router] Unknown route: ${route}, redirecting to login`);
+          this.navigateTo('login');
+          return;
+      }
     }
 
-    this.appContainer.innerHTML = this.currentPage.render();
+    const renderedContent = await this.currentPage.render();
+    this.appContainer.innerHTML = renderedContent;
     this.currentPage.bindEvents();
 
     if (push) {
-      window.history.pushState({ route }, '', `#${route}`);
+      if (token && route === 'reset') {
+        window.history.pushState({ route }, '', `#reset?token=${token}`);
+      } else {
+        window.history.pushState({ route }, '', `#${route}`);
+      }
     }
+
+    console.log(`[Router] Successfully navigated to: ${route}`);
   }
+
 }

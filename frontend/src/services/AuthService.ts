@@ -199,6 +199,69 @@ export class AuthService {
     return userInfo?.displayName || userInfo?.name || null;
   }
 
+
+  async forgotPassword(email: string): Promise<void> {
+    try {
+      const response = await fetch(`${this.baseUrl}/forgot-password`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({ email }),
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || 'Erro ao solicitar redefinição de senha');
+      }
+
+      //Sempre retorna sucesso por questões de segurança
+      return;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async validateResetToken(token: string): Promise<boolean> {
+    try {
+      const response = await fetch(`${this.baseUrl}/validate-reset-token/${token}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+      });
+
+      return response.ok;
+    } catch (error) {
+      console.error('Erro ao validar token:', error);
+      return false;
+    }
+  }
+
+  async resetPassword(token: string, newPassword: string): Promise<void> {
+    try {
+      const response = await fetch(`${this.baseUrl}/reset-password`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({ token, newPassword }),
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || 'Erro ao redefinir senha');
+      }
+
+      return;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   private clearUserInfo(): void {
     try {
       localStorage.removeItem('user_info');
