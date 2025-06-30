@@ -209,6 +209,14 @@ O back end é executado em `http://localhost:3000` e o front end em `http://loca
   }
 - Descrição: Atualiza os dados de um usuário existente.
 
+### ✏️ Atualizar foto de perfil do usuário
+- **PUT** `/api/users/{id}/profile-image`
+- **Multipart**:
+  ```
+    profileImage
+  
+- Descrição: Atualiza a foto de perfil do usuário
+
 ### ⛔ Deletar usuário
 - **DELETE** `/api/users/{id}`
 - Descrição: Remove um usuário do sistema.
