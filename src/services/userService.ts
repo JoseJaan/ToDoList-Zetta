@@ -8,7 +8,6 @@ export class UserService {
         name: userData.name.trim(),
         email: userData.email.toLowerCase().trim(),
         password: userData.password,
-        profileImage: userData.profileImage || undefined,
         displayName: userData.displayName ? userData.displayName.trim() : ''
       });
       return user;
@@ -75,10 +74,6 @@ export class UserService {
      
       if (userData.password) {
         updateData.password = userData.password;
-      }
-
-      if (userData.profileImage !== undefined) {
-        updateData.profileImage = userData.profileImage;
       }
 
       await user.update(updateData);

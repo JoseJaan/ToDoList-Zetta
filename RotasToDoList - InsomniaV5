@@ -1,0 +1,433 @@
+type: collection.insomnia.rest/5.0
+name: ToDoList-Zetta
+meta:
+  id: wrk_57e87e15aee84e2c806de839c3a6ad60
+  created: 1749083124685
+  modified: 1749083124685
+  description: ""
+collection:
+  - url: http://localhost:3000/
+    name: Health Check
+    meta:
+      id: req_234320f9cdf0434683136a50613ac9b0
+      created: 1749083135585
+      modified: 1749156092458
+      isPrivate: false
+      description: ""
+      sortKey: -1749083135585
+    method: GET
+    headers:
+      - name: User-Agent
+        value: insomnia/11.1.0
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/users
+    name: Create User
+    meta:
+      id: req_95db43d858f445debb534f3bb535d2fd
+      created: 1749156072720
+      modified: 1749156343981
+      isPrivate: false
+      description: ""
+      sortKey: -1749156072720
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"name": "João da Silva",
+        	"email": "joao@gmail.com",
+        	"password": "senha123"
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.1.0
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/users
+    name: Get Users
+    meta:
+      id: req_48d9bfaebee547e68495c6bb5e4542e1
+      created: 1749156387266
+      modified: 1749156421346
+      isPrivate: false
+      description: ""
+      sortKey: -1749156387266
+    method: GET
+    headers:
+      - name: User-Agent
+        value: insomnia/11.2.0
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/users/{id}
+    name: Get User By Id
+    meta:
+      id: req_707ef64380204ac18b68c6b3649bb258
+      created: 1749156426590
+      modified: 1749156463406
+      isPrivate: false
+      description: ""
+      sortKey: -1749156426590
+    method: GET
+    headers:
+      - name: User-Agent
+        value: insomnia/11.2.0
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/users/{id}
+    name: Update User
+    meta:
+      id: req_7ebfefca162a4c21a3ba52f70ae111c8
+      created: 1749156473534
+      modified: 1749156591956
+      isPrivate: false
+      description: ""
+      sortKey: -1749156473534
+    method: PUT
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"name": "Luiz Pedro da Silva",
+        	"email": "luiz@gmail.com",
+        	"password": "novaSenha"
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.2.0
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/users/f6f466e2-19b7-416f-8c46-244f6872c39e
+    name: Delete User
+    meta:
+      id: req_03c70ba28c6745209edb53190b95d0ac
+      created: 1749156548773
+      modified: 1749156598111
+      isPrivate: false
+      description: ""
+      sortKey: -1749156548773
+    method: DELETE
+    headers:
+      - name: User-Agent
+        value: insomnia/11.2.0
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/tasks/
+    name: Create Task
+    meta:
+      id: req_ed233699d36c4f569585543e5056d520
+      created: 1749210873093
+      modified: 1749211522977
+      isPrivate: false
+      description: ""
+      sortKey: -1749210873093
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"name": "Tarefa 2",
+        	"description": "Uma tarefa",
+        	"status": "pendente",
+        	"userId": "2a4176e5-b192-4886-a660-3c42f7b569eb"
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.2.0
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/tasks/
+    name: Get tasks
+    meta:
+      id: req_136fb673695a46c88b16280f148b5a48
+      created: 1749211948154
+      modified: 1749211984202
+      isPrivate: false
+      description: ""
+      sortKey: -1749211948154
+    method: GET
+    headers:
+      - name: User-Agent
+        value: insomnia/11.2.0
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/tasks/{id}
+    name: Update Task
+    meta:
+      id: req_7ac5b34cc2d64f16a102ac5c80b7dd7a
+      created: 1749212021170
+      modified: 1749212120292
+      isPrivate: false
+      description: ""
+      sortKey: -1749212021170
+    method: PUT
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"name": "Tarefa 2 - Atualizada",
+        	"description": "Uma tarefa diferente",
+        	"status": "concluida"
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.2.0
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/tasks/{id}
+    name: Delete Task
+    meta:
+      id: req_439e7f35ff41490b9fffda3b70d4789f
+      created: 1749212078451
+      modified: 1749212110379
+      isPrivate: false
+      description: ""
+      sortKey: -1749212078451
+    method: DELETE
+    body:
+      mimeType: application/json
+      text: ""
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.2.0
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/auth/login
+    name: Login
+    meta:
+      id: req_680a5e6ad39540d2bd1aeacf7fa04394
+      created: 1749299358699
+      modified: 1751236897186
+      isPrivate: false
+      description: ""
+      sortKey: -1749299358699
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"email": "jose.neto22@estudante.ufla.br",
+        	"password": "novasenha123"
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.2.0
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/auth/logout
+    name: Logout
+    meta:
+      id: req_31460b4d4c3c4886b9e91ba91de6b094
+      created: 1749299565221
+      modified: 1749299585272
+      isPrivate: false
+      description: ""
+      sortKey: -1749299565221
+    method: POST
+    headers:
+      - name: User-Agent
+        value: insomnia/11.2.0
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/auth/forgot-password
+    name: Forgot Password
+    meta:
+      id: req_ed1c2ccc115046ccbf80a3da0ab6ef2e
+      created: 1749330837566
+      modified: 1749331058301
+      isPrivate: false
+      description: ""
+      sortKey: -1749330837566
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        "email": "jose.neto22@estudante.ufla.br"
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.2.0
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/auth/reset-password?token=36eb8a8230f556c982a45ba78bfa0fd2e52118e02efae12028d595eac6c5bc47
+    name: Reset Password
+    meta:
+      id: req_0dd1a2041e824527918b47d20d9c1c0f
+      created: 1749331052649
+      modified: 1749331130355
+      isPrivate: false
+      description: ""
+      sortKey: -1749331052649
+    method: POST
+    body:
+      mimeType: application/json
+      text: >-
+        {
+        	"token": "36eb8a8230f556c982a45ba78bfa0fd2e52118e02efae12028d595eac6c5bc47",
+        	"newPassword": "galodoido92"
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.2.0
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/api/users/2a4176e5-b192-4886-a660-3c42f7b569eb/profile-image
+    name: New Request
+    meta:
+      id: req_1f4aa6e63e6f4219bfdb4f9ee451c86c
+      created: 1749469571170
+      modified: 1749469678646
+      isPrivate: false
+      description: ""
+      sortKey: -1749469571170
+    method: POST
+    body:
+      mimeType: multipart/form-data
+      params:
+        - id: pair_4d25d8232e8c458c9c7b6c683f6c3aee
+          name: profileImage
+          value: ""
+          description: ""
+          disabled: false
+          type: file
+          fileName: C:\Users\josea\Pictures\FotoAA.jpg
+    headers:
+      - name: Content-Type
+        value: multipart/form-data
+      - name: User-Agent
+        value: insomnia/11.2.0
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_f27ba749c88db7af3001582419f1e852e95852f8
+    created: 1749083124688
+    modified: 1751236898054
+  cookies:
+    - key: authToken
+      value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIyYTQxNzZlNS1iMTkyLTQ4ODYtYTY2MC0zYzQyZjdiNTY5ZWIiLCJlbWFpbCI6Impvc2UubmV0bzIyQGVzdHVkYW50ZS51ZmxhLmJyIiwiaWF0IjoxNzUxMjM2ODk4LCJleHAiOjE3NTEzMjMyOTh9.gpFrjXg-wu3rNh0Yg8hopJWIJ4LTlB39hpwaYtzFghw
+      maxAge: 86400
+      domain: localhost
+      path: /
+      secure: true
+      httpOnly: true
+      hostOnly: true
+      creation: 2025-06-07T12:42:00.601Z
+      lastAccessed: 2025-06-29T22:41:38.054Z
+      sameSite: none
+      id: a974bc6e-fe88-4506-bab7-5b9f3dd49b4e
+environments:
+  name: Base Environment
+  meta:
+    id: env_f27ba749c88db7af3001582419f1e852e95852f8
+    created: 1749083124687
+    modified: 1749083124687
+    isPrivate: false

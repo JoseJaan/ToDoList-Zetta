@@ -135,7 +135,7 @@ export class TaskController {
         });
         return;
       }
-      console.log("[update] req.body: ",req.body)
+      
       const validation = TaskValidation.validateUpdateTask(req.body);
       
       if (!validation.isValid) {

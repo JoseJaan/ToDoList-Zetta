@@ -12,49 +12,17 @@ export class UserController {
 
   async create(req: Request, res: Response): Promise<void> {
     try {
-      console.log("[userController.create]: Chegou no controller")
       const validation = UserValidation.validateCreateUser(req.body);
-      console.log("[userController.create]: Dados: ",req.body)
       if (!validation.isValid) {
-        console.log("[userController.create]: Dados inválidos", validation.errors)
         res.status(400).json({
           error: 'Dados inválidos',
           details: validation.errors
         });
         return;
       }
-      console.log("[userController.create]: Dados são válidos")
-      let imageUrl: string | undefined = undefined;
-    
-      if (req.file) {
-        const allowedMimeTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
-        if (!allowedMimeTypes.includes(req.file.mimetype)) {
-          res.status(400).json({
-            error: 'Tipo de arquivo inválido',
-            message: 'Apenas imagens JPEG, PNG, GIF e WebP são permitidas'
-          });
-          return;
-        }
-
-        const maxSize = 5 * 1024 * 1024; 
-        if (req.file.size > maxSize) {
-          res.status(400).json({
-            error: 'Arquivo muito grande',
-            message: 'A imagem deve ter no máximo 5MB'
-          });
-          return;
-        }
-
-        imageUrl = await CloudinaryService.uploadImage(
-          req.file.buffer,
-          `user-${Date.now()}`,
-          'profile-images'
-        );
-      }
 
       const user = await this.userService.createUser({
-        ...req.body,
-        profileImage: imageUrl
+        ...req.body
       });
 
       const { password, ...userWithoutPassword } = user.toJSON();

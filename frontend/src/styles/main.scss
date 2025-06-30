@@ -1,41 +1,63 @@
 @import '~bootstrap/scss/bootstrap';
+// ==========================================
+// VARIÁVEIS CSS GLOBAIS
+// ==========================================
 
 :root {
-  --primary-color: #20b2aa;
-  --secondary-color: #ffd700;
-  --success-color: #28a745;
-  --danger-color: #dc3545;
-  --warning-color: #ffc107;
-  --info-color: #17a2b8;
-  --light-color: #f8f9fa;
-  --dark-color: #343a40;
+  --primary-color: #20b2aa;    // Cor primária (verde-azulado) - usada para elementos principais
+  --secondary-color: #ffd700;  // Cor secundária (dourado) - usada para destaques e acentos
+  --success-color: #28a745;    // Cor de sucesso (verde) - feedbacks positivos e confirmações
+  --danger-color: #dc3545;     // Cor de perigo (vermelho) - erros e ações destrutivas
+  --warning-color: #ffc107;    // Cor de aviso (amarelo) - alertas e avisos importantes
+  --info-color: #17a2b8;       // Cor informativa (azul) - informações neutras
+  --light-color: #f8f9fa;      // Cor clara (cinza claro) - fundos e elementos sutis
+  --dark-color: #343a40;       // Cor escura (cinza escuro) - textos e elementos principais
 }
 
+// ==========================================
+// RESET E CONFIGURAÇÕES GLOBAIS
+// ==========================================
+// Aplica box-sizing: border-box para todos os elementos
 * {
   box-sizing: border-box;
 }
 
+// ==========================================
+// ESTILOS DO CORPO DA PÁGINA
+// ==========================================
+
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  line-height: 1.6;
-  color: var(--dark-color);
-  margin: 0;
-  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; // Stack de fontes modernas
+  line-height: 1.6;           // Espaçamento entre linhas para melhor legibilidade
+  color: var(--dark-color);   // Cor padrão do texto usando variável CSS
+  margin: 0;                  // Remove margens padrão do navegador
+  padding: 0;                 // Remove padding padrão do navegador
 }
 
+// ==========================================
+// CLASSES UTILITÁRIAS
+// ==========================================
+
+// Garante altura mínima de 100% da viewport para elementos que precisam ocupar toda a tela
 .min-vh-100 {
   min-height: 100vh;
 }
 
+// Controla como imagens se ajustam ao container - mantém proporção cobrindo todo o espaço
 .object-fit-cover {
   object-fit: cover;
 }
 
+// Controla como imagens se ajustam ao container - mantém proporção dentro do espaço disponível
 .object-fit-contain {
   object-fit: contain;
 }
 
-@import 'components/auth';
-@import 'components/header';
-@import 'components/footer';
-@import 'components/dashboard';
+// ==========================================
+// IMPORTAÇÕES DE COMPONENTES
+// ==========================================
+
+@import 'components/auth';      // Estilos para páginas de autenticação (login, registro)
+@import 'components/header';    // Estilos para o cabeçalho da aplicação
+@import 'components/footer';    // Estilos para o rodapé da aplicação
+@import 'components/dashboard'; // Estilos para o painel administrativo/dashboard
