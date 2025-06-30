@@ -32,7 +32,7 @@ describe('UserService', () => {
         name: 'John Doe',
         email: 'john@example.com',
         password: 'secret',
-        profileImage: ''
+        displayName: 'John Doe',
       });
 
       expect(User.create).toHaveBeenCalled();
@@ -48,7 +48,7 @@ describe('UserService', () => {
         name: 'John Doe',
         email: 'duplicate@example.com',
         password: 'secret',
-        profileImage: ''
+        displayName: 'John Doe',
       })).rejects.toThrow('Email já está em uso');
     });
   });
