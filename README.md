@@ -89,6 +89,9 @@ Projeto desenvolvido como solução para o desafio 2 do progama Zetta Lab 2025.
 ├── package-lock.json 
 ├── package.json
 ├── README.md 
+├── RotasToDoList - InsomniaV5 # Arquivo com requisições para a API, no formato InsomniaV5
+├── RotasToDoList.har - InsomniaV5 # Arquivo com requisições para a API, no formato har
+├── README.md 
 └── tsconfig.json                                        
 ```
 
@@ -166,3 +169,121 @@ O back end é executado em `http://localhost:3000` e o front end em `http://loca
 | CLOUDINARY_CLOUD_NAME  | Nome da cloud no Cloudinary    | dxqcebqx3          |
 | CLOUDINARY_API_KEY   | Chave da API do Cloudinary    | 612318217586866          |
 | FRONTEND_URL | Url Front  | http://localhost:3001          |
+
+## 📨 Rotas da API
+
+### 🔄 Health Check
+- **GET** `/`
+- **Descrição**: Verifica se o servidor está online.
+
+---
+
+### 👤 Usuários
+
+### 📥 Criar usuário
+- **POST** `/api/users`
+- **Body**:
+  ```json
+  {
+    "name": "João da Silva",
+    "email": "joao@gmail.com",
+    "password": "senha123"
+  }
+- Descrição: Cria um novo usuário no sistema.
+
+### 🔍 Buscar todos os usuários
+- **GET** `/api/users`
+- Descrição: Retorna todos os usuários cadastrados.
+
+### 🔬 Buscar usuário por ID
+- **GET** `/api/users/{id}`
+- Descrição: Retorna os dados de um usuário específico.
+
+### ✏️ Atualizar usuário
+- **PUT** `/api/users/{id}`
+- **Body**:
+  ```json
+  {
+    "name": "Novo Nome",
+    "email": "novoemail@gmail.com"
+  }
+- Descrição: Atualiza os dados de um usuário existente.
+
+### ⛔ Deletar usuário
+- **DELETE** `/api/users/{id}`
+- Descrição: Remove um usuário do sistema.
+
+### 👤 Autenticação
+
+### 🔐 Login
+- **POST** `/api/auth/login`
+- **Body**:
+  ```json
+  {
+    "email": "joao@gmail.com",
+    "password": "senha123"
+  }
+- Descrição: Realiza login e retorna o token JWT.
+
+### 🔐 Requisição de redefinição de senha
+- **POST** `/api/auth/forgot-password`
+- **Body**:
+  ```json
+  {
+    "email": "joao@gmail.com"
+  }
+- Descrição: Envia um e-mail com link para redefinição de senha.
+
+### 🔐 Redefinir senha
+- **POST** `/api/auth/forgot-password`
+- **Body**:
+  ```json
+  {
+    "token": "token_recebido_no_email",
+    "newPassword": "novasenha123" 
+  }
+- Descrição: Redefine a senha usando um token válido.
+
+### 🎯 Tasks
+
+### ➕ Criar task
+- **POST** `/api/tasks`
+- **Headers**:
+    - Authorization: Bearer <token> 
+- **Body**:
+  ```json
+  {
+    "name": "Estudar TypeScript",
+    "description": "Revisar interfaces e classes"
+  }
+- Descrição: Cria uma nova tarefa para o usuário autenticado.
+
+### 📃 Listar todas as tasks
+- **GET** `/api/tasks`
+- **Headers**:
+    - Authorization: Bearer <token> 
+- Descrição: Lista todas as tarefas do usuário autenticado.
+
+### ✏️ Atualizar task
+- **PUT** `/api/tasks/{id}`
+- **Headers**:
+    - Authorization: Bearer <token> 
+- **Body**:
+  ```json
+  {
+    "name": "Nova tarefa",
+    "description": "Descrição atualizada",
+    "status": "concluída"
+  }
+- Descrição: Atualiza uma tarefa existente.
+
+### ⛔ Deletar task
+- **PUT** `/api/tasks/{id}`
+- **Headers**:
+    - Authorization: Bearer <token> 
+- Descrição: Deleta uma tarefa.
+
+## 🤔 Informações adicionais
+O projeto foi desenvolvido seguindo as boas práticas de código e versionamento presentes no E-book disponibilizado. A integração com o Cloudinary para o armazenamento de imagens tinha como objetivo a possibilidade do usuário ter uma foto de perfil personalizável e também conseguir fazer upload de fotos por task. O upload de foto de perfil foi implementado apenas no back end, enquando as fotos por task não foram implementadas por questão de tempo. O desenvolvimento do projeto foi organizado com base num quadro Kanban integrado ao Git Hub, como mostra a imagem a seguir.
+![quadroKanBan](images/KanBanGIT.png)
+
