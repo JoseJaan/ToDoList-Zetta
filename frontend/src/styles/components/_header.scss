@@ -1,112 +1,157 @@
-$header-bg: #20b2aa;
-$header-text: #ffffff;
+// ==========================================
+// VARIÁVEIS SCSS LOCAIS
+// ==========================================
+// Cores específicas do header para facilitar manutenção e consistência
+$header-bg: #20b2aa;    // Cor de fundo do header (verde-azulado)
+$header-text: #ffffff;  // Cor do texto no header (branco para contraste)
 
+// ==========================================
+// CONTAINER PRINCIPAL DO HEADER
+// ==========================================
+// Estiliza o container principal do cabeçalho com gradiente e posicionamento fixo
 .app-header {
+  // Gradiente de fundo para efeito visual mais atraente
   background: linear-gradient(135deg, $header-bg 0%, lighten($header-bg, 8%) 100%);
+  
+  // Sombra sutil para separar o header do conteúdo
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  
+  // Posicionamento sticky para manter o header visível durante scroll
   position: sticky;
   top: 0;
-  z-index: 1000;
+  z-index: 1000; // Alto z-index para ficar acima de outros elementos
 
+  // ==========================================
+  // NAVBAR BOOTSTRAP
+  // ==========================================
+  // Configurações da barra de navegação
   .navbar {
-    padding: 0.75rem 0;
-
+    padding: 0.75rem 0; // Padding vertical padrão
+    
+    // Reduz padding em telas pequenas para economizar espaço
     @media (max-width: 575.98px) {
       padding: 0.5rem 0;
     }
   }
 
+  // ==========================================
+  // MARCA/LOGO DA APLICAÇÃO
+  // ==========================================
+  // Estilos para o logo/nome da aplicação no header
   .navbar-brand {
     .brand-text {
-      color: $header-text;
-      font-size: 1.5rem;
-      font-weight: bold;
-      text-decoration: none;
-
+      color: $header-text;           // Cor do texto da marca
+      font-size: 1.5rem;            // Tamanho da fonte
+      font-weight: bold;            // Peso da fonte em negrito
+      text-decoration: none;        // Remove sublinhado de links
+      
+      // Reduz tamanho da fonte em telas pequenas
       @media (max-width: 575.98px) {
         font-size: 1.3rem;
       }
     }
 
+    // Efeito hover na marca para melhor interatividade
     &:hover .brand-text {
       color: $header-text;
-      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); // Sombra no texto
     }
   }
 
+  // ==========================================
+  // BOTÃO TOGGLE MOBILE
+  // ==========================================
+  // Estiliza o botão de menu mobile (hamburger)
   .navbar-toggler {
-    border: none;
-    padding: 0.25rem;
-
+    border: none;           // Remove borda padrão do Bootstrap
+    padding: 0.25rem;       // Padding reduzido para botão menor
+    
+    // Remove outline azul do foco
     &:focus {
       box-shadow: none;
     }
 
+    // Ícone customizado do hamburger em branco
     .navbar-toggler-icon {
       background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
     }
   }
 
+  // ==========================================
+  // DROPDOWN DO USUÁRIO
+  // ==========================================
+  // Área de informações do usuário logado com avatar e nome
   .user-dropdown {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    color: $header-text;
-    text-decoration: none;
-    padding: 0.5rem 1rem;
-    border-radius: 25px;
-    transition: all 0.3s ease;
-
+    display: flex;              // Layout flexbox para alinhamento
+    align-items: center;        // Centraliza verticalmente
+    gap: 0.75rem;              // Espaço entre avatar e nome
+    color: $header-text;        // Cor do texto
+    text-decoration: none;      // Remove sublinhado
+    padding: 0.5rem 1rem;       // Padding interno
+    border-radius: 25px;        // Bordas arredondadas
+    transition: all 0.3s ease;  // Transição suave para hover
+    
+    // Efeito hover com fundo semi-transparente
     &:hover {
       background-color: rgba(255, 255, 255, 0.1);
       color: $header-text;
     }
 
+    // Avatar circular do usuário
     .user-avatar {
-      width: 35px;
-      height: 35px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #ffd700, #ffed4e);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: bold;
-      color: #333;
-      font-size: 0.9rem;
+      width: 35px;                // Largura fixa
+      height: 35px;               // Altura fixa
+      border-radius: 50%;         // Formato circular
+      background: linear-gradient(135deg, #ffd700, #ffed4e); // Gradiente dourado
+      display: flex;              // Flexbox para centralizar conteúdo
+      align-items: center;        // Centraliza verticalmente
+      justify-content: center;    // Centraliza horizontalmente
+      font-weight: bold;          // Texto em negrito
+      color: #333;                // Cor escura para contraste
+      font-size: 0.9rem;          // Tamanho da fonte
     }
 
+    // Nome do usuário (oculto em tablets e mobile)
     .user-name {
-      font-weight: 500;
-      font-size: 0.95rem;
-
+      font-weight: 500;           // Peso médio da fonte
+      font-size: 0.95rem;         // Tamanho da fonte
+      
+      // Oculta nome em telas menores para economizar espaço
       @media (max-width: 991.98px) {
         display: none !important;
       }
     }
 
+    // Seta do dropdown mantém cor branca
     &::after {
       color: $header-text;
     }
   }
 
+  // ==========================================
+  // MENU DROPDOWN
+  // ==========================================
+  // Estiliza o menu suspenso que aparece ao clicar no usuário
   .dropdown-menu {
-    border: none;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-    border-radius: 10px;
-    padding: 0.5rem 0;
-    margin-top: 0.5rem;
-    display: none;
-    position: absolute;
-    top: 100%;
-    right: 0;
-    z-index: 1000;
-    min-width: 200px;
-    background-color: white;
+    border: none;                           // Remove borda padrão
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15); // Sombra suave
+    border-radius: 10px;                    // Bordas arredondadas
+    padding: 0.5rem 0;                      // Padding vertical
+    margin-top: 0.5rem;                     // Espaço do trigger
+    display: none;                          // Inicialmente oculto
+    position: absolute;                     // Posicionamento absoluto
+    top: 100%;                              // Posiciona abaixo do trigger
+    right: 0;                               // Alinha à direita
+    z-index: 1000;                          // Alto z-index
+    min-width: 200px;                       // Largura mínima
+    background-color: white;                // Fundo branco
     
+    // Classe para mostrar o dropdown
     &.show {
       display: block;
     }
     
+    // Variação para dropup (abrir para cima)
     &.dropup {
       top: auto;
       bottom: 100%;
@@ -114,23 +159,26 @@ $header-text: #ffffff;
       margin-bottom: 0.5rem;
     }
 
+    // Itens individuais do dropdown
     .dropdown-item {
-      padding: 0.75rem 1.5rem;
-      font-size: 0.9rem;
-      display: flex;
-      align-items: center;
-      transition: all 0.2s ease;
-      color: #333;
-      text-decoration: none;
-      border: none;
-      background: none;
-      width: 100%;
-      text-align: left;
+      padding: 0.75rem 1.5rem;       // Padding generoso para área de clique
+      font-size: 0.9rem;             // Tamanho da fonte
+      display: flex;                 // Flexbox para ícones
+      align-items: center;           // Alinhamento vertical
+      transition: all 0.2s ease;     // Transição suave
+      color: #333;                   // Cor padrão
+      text-decoration: none;         // Remove sublinhado
+      border: none;                  // Remove borda para botões
+      background: none;              // Remove fundo para botões
+      width: 100%;                   // Largura total
+      text-align: left;              // Alinhamento à esquerda
 
+      // Efeito hover padrão
       &:hover {
         background-color: #f8f9fa;
       }
 
+      // Estilo especial para itens de perigo (logout, excluir, etc.)
       &.text-danger {
         color: #dc3545;
 
@@ -140,6 +188,7 @@ $header-text: #ffffff;
         }
       }
 
+      // Espaçamento para ícones
       i {
         width: 16px;
       }
@@ -147,116 +196,140 @@ $header-text: #ffffff;
   }
 }
 
+// ==========================================
+// COMPONENTE DE LOADING
+// ==========================================
+// Modal de loading que aparece durante operações assíncronas
 .header-loading {
-  position: fixed;
+  position: fixed;    // Posição fixa para cobrir toda a tela
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 9999;
+  z-index: 9999;      // Z-index alto para ficar acima de tudo
 
+  // Fundo escuro semi-transparente
   .loading-backdrop {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.5);  // Fundo escuro com transparência
+    display: flex;                         // Flexbox para centralizar
+    align-items: center;                   // Centraliza verticalmente
+    justify-content: center;               // Centraliza horizontalmente
   }
 
+  // Conteúdo do modal de loading
   .loading-content {
-    background: white;
-    padding: 2rem;
-    border-radius: 10px;
-    text-align: center;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    background: white;                     // Fundo branco
+    padding: 2rem;                         // Padding generoso
+    border-radius: 10px;                   // Bordas arredondadas
+    text-align: center;                    // Texto centralizado
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); // Sombra pronunciada
 
+    // Spinner animado
     .spinner {
-      width: 40px;
-      height: 40px;
-      border: 4px solid #f3f3f3;
-      border-top: 4px solid $header-bg;
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-      margin: 0 auto 1rem;
+      width: 40px;                         // Largura do spinner
+      height: 40px;                        // Altura do spinner
+      border: 4px solid #f3f3f3;           // Borda cinza clara
+      border-top: 4px solid $header-bg;    // Borda superior colorida
+      border-radius: 50%;                  // Formato circular
+      animation: spin 1s linear infinite;  // Animação de rotação
+      margin: 0 auto 1rem;                 // Centraliza e adiciona margem inferior
     }
 
+    // Texto do loading
     p {
-      margin: 0;
-      color: #333;
-      font-weight: 500;
+      margin: 0;                           // Remove margem padrão
+      color: #333;                         // Cor escura
+      font-weight: 500;                    // Peso médio da fonte
     }
   }
 }
 
+// ==========================================
+// ANIMAÇÃO DO SPINNER
+// ==========================================
+// Keyframes para rotação contínua do spinner
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
 
+// ==========================================
+// COMPONENTE DE ALERTAS
+// ==========================================
+// Alertas flutuantes que aparecem no canto superior direito
 .header-alert {
-  position: fixed;
-  top: 80px;
-  right: 20px;
-  z-index: 9998;
-  max-width: 400px;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  animation: slideIn 0.3s ease-out;
+  position: fixed;                        // Posição fixa
+  top: 80px;                             // Posição abaixo do header
+  right: 20px;                           // Margem da direita
+  z-index: 9998;                         // Z-index alto
+  max-width: 400px;                      // Largura máxima
+  border-radius: 8px;                    // Bordas arredondadas
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); // Sombra suave
+  animation: slideIn 0.3s ease-out;      // Animação de entrada
 
+  // Conteúdo do alerta
   .alert-content {
-    padding: 1rem 1.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    padding: 1rem 1.5rem;                // Padding interno
+    display: flex;                       // Layout flexbox
+    align-items: center;                 // Alinhamento vertical
+    justify-content: space-between;      // Espaça conteúdo e botão
   }
 
+  // Mensagem do alerta
   .alert-message {
-    flex: 1;
-    margin-right: 1rem;
-    font-weight: 500;
+    flex: 1;                            // Ocupa espaço disponível
+    margin-right: 1rem;                 // Margem do botão de fechar
+    font-weight: 500;                   // Peso médio da fonte
   }
 
+  // Botão de fechar alerta
   .alert-close {
-    background: none;
-    border: none;
-    font-size: 1.5rem;
-    cursor: pointer;
-    opacity: 0.7;
-    transition: opacity 0.2s ease;
+    background: none;                   // Remove fundo
+    border: none;                       // Remove borda
+    font-size: 1.5rem;                  // Tamanho da fonte
+    cursor: pointer;                    // Cursor de ponteiro
+    opacity: 0.7;                       // Opacidade reduzida
+    transition: opacity 0.2s ease;      // Transição suave
 
     &:hover {
-      opacity: 1;
+      opacity: 1;                       // Opacidade total no hover
     }
   }
 
+  // Variações de tipo de alerta
+
+  // Alerta de sucesso (verde)
   &.alert-success {
-    background-color: #d4edda;
-    color: #155724;
-    border-left: 4px solid #28a745;
+    background-color: #d4edda;          // Fundo verde claro
+    color: #155724;                     // Texto verde escuro
+    border-left: 4px solid #28a745;     // Borda esquerda verde
 
     .alert-close {
       color: #155724;
     }
   }
 
+  // Alerta de erro (vermelho)
   &.alert-error {
-    background-color: #f8d7da;
-    color: #721c24;
-    border-left: 4px solid #dc3545;
+    background-color: #f8d7da;          // Fundo vermelho claro
+    color: #721c24;                     // Texto vermelho escuro
+    border-left: 4px solid #dc3545;     // Borda esquerda vermelha
 
     .alert-close {
       color: #721c24;
     }
   }
 
+  // Alerta informativo (azul)
   &.alert-info {
-    background-color: #d1ecf1;
-    color: #0c5460;
-    border-left: 4px solid #17a2b8;
+    background-color: #d1ecf1;          // Fundo azul claro
+    color: #0c5460;                     // Texto azul escuro
+    border-left: 4px solid #17a2b8;     // Borda esquerda azul
 
     .alert-close {
       color: #0c5460;
@@ -264,26 +337,36 @@ $header-text: #ffffff;
   }
 }
 
+// ==========================================
+// ANIMAÇÃO DE ENTRADA DOS ALERTAS
+// ==========================================
+// Animação que faz o alerta deslizar da direita para a esquerda
 @keyframes slideIn {
   from {
-    transform: translateX(100%);
-    opacity: 0;
+    transform: translateX(100%);        // Inicia fora da tela à direita
+    opacity: 0;                         // Inicia invisível
   }
   to {
-    transform: translateX(0);
-    opacity: 1;
+    transform: translateX(0);           // Termina na posição final
+    opacity: 1;                         // Termina visível
   }
 }
 
+// ==========================================
+// RESPONSIVIDADE PARA DISPOSITIVOS MÓVEIS
+// ==========================================
+// Ajustes específicos para telas pequenas
 @media (max-width: 768px) {
+  // Alertas ocupam largura total em mobile
   .header-alert {
-    right: 10px;
-    left: 10px;
-    max-width: none;
+    right: 10px;                        // Margem reduzida
+    left: 10px;                         // Margem esquerda
+    max-width: none;                    // Remove largura máxima
   }
 
+  // Loading com padding reduzido em mobile
   .header-loading .loading-content {
-    margin: 0 1rem;
-    padding: 1.5rem;
+    margin: 0 1rem;                     // Margem lateral
+    padding: 1.5rem;                    // Padding reduzido
   }
 }

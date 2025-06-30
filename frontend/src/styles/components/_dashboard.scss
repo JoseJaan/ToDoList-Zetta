@@ -1,86 +1,104 @@
-$dashboard-primary: #20b2aa;
-$dashboard-secondary: #ffd700;
-$dashboard-success: #28a745;
-$dashboard-warning: #ffc107;
-$dashboard-danger: #dc3545;
-$dashboard-info: #17a2b8;
-$dashboard-neutral: #6c757d;
+// Paleta de cores específicas para o dashboard
+$dashboard-primary: #20b2aa;    // Cor primária (turquesa) - elementos principais do dashboard
+$dashboard-secondary: #ffd700;  // Cor secundária (dourado) - botões de ação e destaques
+$dashboard-success: #28a745;    // Cor de sucesso (verde) - tarefas completadas e feedbacks positivos
+$dashboard-warning: #ffc107;    // Cor de aviso (amarelo) - alertas
+$dashboard-danger: #dc3545;     // Cor de perigo (vermelho) - erros
+$dashboard-info: #17a2b8;       // Cor de informação (azul) - Status
+$dashboard-neutral: #6c757d;    // Cor neutra (cinza) - Box de selecao de status
 
+// ==========================================
+// LAYOUT PRINCIPAL DO DASHBOARD
+// ==========================================
+// Container principal da página do dashboard
 .dashboard-page {
-  min-height: 100vh;
-  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  min-height: 100vh;           // Garante altura mínima de toda a viewport
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); // Gradiente suave de fundo
 }
 
+// Área de conteúdo principal do dashboard
 .dashboard-main {
-  flex: 1;
-  padding: 2rem 0;
+  flex: 1;                     // Ocupa todo o espaço disponível em layouts flexíveis
+  padding: 2rem 0;             // Espaçamento vertical padrão
 
+  // Responsividade para dispositivos móveis pequenos
   @media (max-width: 575.98px) {
-    padding: 1rem 0;
+    padding: 1rem 0;           // Reduz padding em telas pequenas
   }
 }
 
-// Header Section
+// ==========================================
+// SEÇÃO DO CABEÇALHO DO DASHBOARD
+// ==========================================
+// Cabeçalho principal com saudação e botão de nova tarefa
 .dashboard-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 2rem;
-  padding: 1.5rem;
-  background: linear-gradient(135deg, $dashboard-primary 0%, lighten($dashboard-primary, 10%) 100%);
-  border-radius: 15px;
-  box-shadow: 0 8px 25px rgba($dashboard-primary, 0.2);
+  display: flex;               // Layout flexível para alinhamento
+  justify-content: space-between; // Distribui elementos nas extremidades
+  align-items: center;         // Alinha verticalmente ao centro
+  margin-bottom: 2rem;         // Espaçamento inferior
+  padding: 1.5rem;             // Espaçamento interno
+  background: linear-gradient(135deg, $dashboard-primary 0%, lighten($dashboard-primary, 10%) 100%); // Gradiente com cor primária
+  border-radius: 15px;         // Bordas arredondadas modernas
+  box-shadow: 0 8px 25px rgba($dashboard-primary, 0.2); // Sombra suave com cor primária
 
+  // Responsividade para tablets
   @media (max-width: 767.98px) {
-    flex-direction: column;
-    gap: 1rem;
-    text-align: center;
-    padding: 1rem;
+    flex-direction: column;    // Empilha elementos verticalmente
+    gap: 1rem;                 // Espaçamento entre elementos empilhados
+    text-align: center;        // Centraliza texto
+    padding: 1rem;             // Reduz padding interno
   }
 }
 
+// Texto de saudação no cabeçalho
 .dashboard-greeting {
-  color: white;
-  font-size: 2.2rem;
-  font-weight: bold;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-  margin: 0;
+  color: white;                // Cor branca para contraste com fundo colorido
+  font-size: 2.2rem;          // Tamanho de fonte grande para destaque
+  font-weight: bold;          // Peso da fonte em negrito
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); // Sombra no texto para legibilidade
+  margin: 0;                  // Remove margens padrão
 
+  // Responsividade para mobile
   @media (max-width: 575.98px) {
-    font-size: 1.8rem;
+    font-size: 1.8rem;        // Reduz tamanho da fonte
   }
 
+  // Responsividade para desktop
   @media (min-width: 992px) {
-    font-size: 2.5rem;
+    font-size: 2.5rem;        // Aumenta tamanho da fonte em telas grandes
   }
 }
 
+// Botão para criar nova tarefa
 .btn-new-task {
-  background-color: $dashboard-secondary;
-  border: none;
-  color: #333;
-  font-weight: 600;
-  padding: 0.75rem 2rem;
-  border-radius: 25px;
-  font-size: 1rem;
-  transition: all 0.3s ease;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+  background-color: $dashboard-secondary; // Cor de fundo dourada
+  border: none;               // Remove borda padrão
+  color: #333;                // Cor do texto escura para contraste
+  font-weight: 600;           // Peso da fonte semi-bold
+  padding: 0.75rem 2rem;      // Espaçamento interno horizontal e vertical
+  border-radius: 25px;        // Bordas muito arredondadas (formato pill)
+  font-size: 1rem;            // Tamanho padrão da fonte
+  transition: all 0.3s ease;  // Transição suave para todas as propriedades
+  text-transform: uppercase;   // Texto em maiúsculas
+  letter-spacing: 0.5px;      // Espaçamento entre letras
 
+  // Efeito hover (quando mouse passa por cima)
   &:hover {
-    background-color: darken($dashboard-secondary, 10%);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba($dashboard-secondary, 0.4);
-    color: #333;
+    background-color: darken($dashboard-secondary, 10%); // Escurece a cor de fundo
+    transform: translateY(-2px); // Move o botão para cima
+    box-shadow: 0 6px 20px rgba($dashboard-secondary, 0.4); // Adiciona sombra
+    color: #333;              // Mantém cor do texto
   }
 
+  // Efeito active (quando botão é pressionado)
   &:active {
-    transform: translateY(0);
+    transform: translateY(0); // Retorna à posição original
   }
 
+  // Responsividade para mobile
   @media (max-width: 575.98px) {
-    padding: 0.6rem 1.5rem;
-    font-size: 0.9rem;
+    padding: 0.6rem 1.5rem;   // Reduz padding
+    font-size: 0.9rem;        // Reduz tamanho da fonte
   }
 }
 
@@ -242,198 +260,203 @@ $dashboard-neutral: #6c757d;
 }
 
 // Task Cards
+// ==========================================
+// CARDS DE TAREFAS
+// ==========================================
+// Card individual para cada tarefa
 .task-card {
-  background: white;
-  border-radius: 12px;
-  padding: 1.5rem;
-  margin-bottom: 1rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  border: none;
-  transition: all 0.3s ease;
-  border-left: 4px solid;
+  background: white;          // Fundo branco para contraste
+  border-radius: 12px;        // Bordas arredondadas
+  padding: 1.5rem;            // Espaçamento interno
+  margin-bottom: 1rem;        // Espaçamento entre cards
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); // Sombra suave
+  border: none;               // Remove bordas padrão
+  transition: all 0.3s ease;  // Transição suave para efeitos
+  border-left: 4px solid;     // Borda colorida à esquerda (cor definida pelas classes de status)
 
+  // Efeito hover para cards
   &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px); // Eleva o card
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15); // Intensifica a sombra
   }
 
+  // Modificadores para diferentes status de tarefa
   &.task-card-pending {
-    border-left-color: $dashboard-warning;
-  }
-
-  &.task-card-progress {
-    border-left-color: $dashboard-info;
+    border-left-color: $dashboard-warning; // Borda amarela para tarefas pendentes
   }
 
   &.task-card-completed {
-    border-left-color: $dashboard-success;
+    border-left-color: $dashboard-success; // Borda verde para tarefas completadas
   }
 }
 
+// Cabeçalho do card de tarefa
 .task-card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 1rem;
+  display: flex;              // Layout flexível
+  justify-content: space-between; // Distribui elementos nas extremidades
+  align-items: flex-start;    // Alinha ao topo
+  margin-bottom: 1rem;        // Espaçamento inferior
 }
 
+// Título da tarefa
 .task-card-title {
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: #333;
-  margin: 0;
-  flex: 1;
-  margin-right: 1rem;
-  line-height: 1.4;
+  font-size: 1.1rem;          // Tamanho de fonte ligeiramente maior
+  font-weight: 600;           // Peso da fonte semi-bold
+  color: #333;                // Cor escura
+  margin: 0;                  // Remove margens padrão
+  flex: 1;                    // Ocupa espaço disponível
+  margin-right: 1rem;         // Espaçamento à direita
+  line-height: 1.4;           // Altura da linha para legibilidade
 
+  // Responsividade para mobile
   @media (max-width: 575.98px) {
-    font-size: 1rem;
+    font-size: 1rem;          // Reduz tamanho da fonte
   }
 }
 
+// Container para botões de ação do card
 .task-card-actions {
-  display: flex;
-  gap: 0.5rem;
-  flex-shrink: 0;
+  display: flex;              // Layout flexível
+  gap: 0.5rem;                // Espaçamento entre botões
+  flex-shrink: 0;             // Impede que o container encolha
 
   .btn {
-    padding: 0.25rem 0.5rem;
-    border-radius: 6px;
-    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;  // Padding pequeno para botões compactos
+    border-radius: 6px;       // Bordas ligeiramente arredondadas
+    font-size: 0.75rem;       // Fonte pequena
   }
 }
 
+// Seção de descrição da tarefa
 .task-card-description {
-  margin-bottom: 1rem;
+  margin-bottom: 1rem;        // Espaçamento inferior
 
   p {
-    color: #666;
-    font-size: 0.9rem;
-    line-height: 1.5;
-    margin: 0;
+    color: #666;              // Cor de texto mais suave
+    font-size: 0.9rem;        // Fonte ligeiramente menor
+    line-height: 1.5;         // Altura da linha para legibilidade
+    margin: 0;                // Remove margens padrão
   }
 }
 
+// Rodapé do card de tarefa
 .task-card-footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  display: flex;              // Layout flexível
+  justify-content: space-between; // Distribui elementos nas extremidades
+  align-items: center;        // Alinha verticalmente ao centro
 }
 
+// Indicador de status da tarefa
 .task-status {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
+  display: flex;              // Layout flexível
+  align-items: center;        // Alinha verticalmente ao centro
+  gap: 0.5rem;                // Espaçamento entre ícone e texto
 
   .task-status-icon {
-    font-size: 1.2rem;
+    font-size: 1.2rem;        // Tamanho do ícone
   }
 
   .task-status-text {
-    font-weight: 500;
-    font-size: 0.9rem;
-    color: #666;
+    font-weight: 500;         // Peso da fonte médio
+    font-size: 0.9rem;        // Fonte ligeiramente menor
+    color: #666;              // Cor de texto suave
   }
 }
 
+// Botão toggle para expandir/recolher card
 .task-card-toggle {
   .task-toggle-btn {
-    background: none;
-    border: 1px solid #dee2e6;
-    color: #666;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    background: none;         // Remove fundo padrão
+    border: 1px solid #dee2e6; // Borda sutil
+    color: #666;              // Cor do texto/ícone
+    width: 50px;              // Largura fixa
+    height: 50px;             // Altura fixa (formato circular)
+    border-radius: 50%;       // Formato circular
+    display: flex;            // Layout flexível
+    align-items: center;      // Centraliza verticalmente
+    justify-content: center;  // Centraliza horizontalmente
 
+    // Efeito hover
     &:hover {
-      background-color: #f8f9fa;
-      border-color: $dashboard-primary;
-      color: $dashboard-primary;
+      background-color: #f8f9fa; // Fundo claro
+      border-color: $dashboard-primary; // Borda com cor primária
+      color: $dashboard-primary; // Cor do ícone/texto
     }
   }
 }
 
+// Estado expandido do card
 .task-card-expanded {
-  margin-top: 1rem;
-  padding-top: 1rem;
-  border-top: 1px solid #e9ecef;
+  margin-top: 1rem;           // Espaçamento superior
+  padding-top: 1rem;          // Padding superior
+  border-top: 1px solid #e9ecef; // Linha divisória
 
   .task-actions-expanded {
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.75rem;   // Espaçamento inferior
   }
 
   .task-status-select {
-    font-size: 0.85rem;
+    font-size: 0.85rem;       // Fonte menor para select
   }
 }
 
-.task-priority-high {
-  background-color: $dashboard-danger;
-}
-
-.task-priority-medium {
-  background-color: $dashboard-warning;
-}
-
-.task-priority-low {
-  background-color: $dashboard-info;
-}
-
-// Empty State
+// ==========================================
+// ESTADO VAZIO (QUANDO NÃO HÁ TAREFAS)
+// ==========================================
 .empty-state {
-  text-align: center;
-  padding: 4rem 2rem;
-  background: white;
-  border-radius: 15px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  text-align: center;         // Centraliza conteúdo
+  padding: 4rem 2rem;         // Padding generoso
+  background: white;          // Fundo branco
+  border-radius: 15px;        // Bordas arredondadas
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08); // Sombra suave
 
   .empty-state-icon {
-    font-size: 4rem;
-    margin-bottom: 1rem;
+    font-size: 4rem;          // Ícone grande
+    margin-bottom: 1rem;      // Espaçamento inferior
   }
 
   .empty-state-title {
-    color: #333;
-    font-size: 1.5rem;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
+    color: #333;              // Cor escura para título
+    font-size: 1.5rem;        // Fonte grande
+    font-weight: 600;         // Peso semi-bold
+    margin-bottom: 0.5rem;    // Espaçamento inferior
   }
 
   .empty-state-text {
-    color: #666;
-    font-size: 1rem;
-    margin-bottom: 2rem;
+    color: #666;              // Cor suave para texto
+    font-size: 1rem;          // Fonte padrão
+    margin-bottom: 2rem;      // Espaçamento inferior
   }
 
+  // Responsividade para mobile
   @media (max-width: 575.98px) {
-    padding: 2rem 1rem;
+    padding: 2rem 1rem;       // Reduz padding
 
     .empty-state-icon {
-      font-size: 3rem;
+      font-size: 3rem;        // Reduz tamanho do ícone
     }
 
     .empty-state-title {
-      font-size: 1.3rem;
+      font-size: 1.3rem;      // Reduz tamanho do título
     }
   }
 }
 
-// Responsive adjustments
+// ==========================================
+// AJUSTES RESPONSIVOS GERAIS
+// ==========================================
 @media (max-width: 575.98px) {
   .task-card {
-    padding: 1rem;
+    padding: 1rem;            // Reduz padding dos cards em mobile
   }
 
   .task-card-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.75rem;
+    flex-direction: column;   // Empilha elementos verticalmente
+    align-items: flex-start;  // Alinha à esquerda
+    gap: 0.75rem;             // Espaçamento entre elementos empilhados
   }
 
   .task-card-actions {
-    align-self: flex-end;
+    align-self: flex-end;     // Alinha botões à direita
   }
 }

@@ -15,7 +15,7 @@ services:
       - CLOUDINARY_API_KEY=${CLOUDINARY_API_KEY}
       - JWT_SECRET=${JWT_SECRET}
       - JWT_EXPIRES_IN=${JWT_EXPIRES_IN}
-      - RESET_PASSWORD_URL=${RESET_PASSWORD_URL}
+      - FRONTEND_URL=${FRONTEND_URL}
     volumes:
       - .:/app
       - /app/node_modules

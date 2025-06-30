@@ -1,301 +1,370 @@
-$auth-primary-color: #20b2aa; // Cor turquesa do design
-$auth-secondary-color: #ffd700; // Cor dourada do texto
-$auth-card-bg: #ffffff;
-$auth-input-border: #d1d5db;
-$auth-input-focus: #20b2aa;
+// Paleta de cores específicas para páginas de autenticação
+$auth-primary-color: #20b2aa;   // Cor primária (turquesa) - elementos principais e fundos
+$auth-secondary-color: #ffd700; // Cor secundária (dourado) - títulos e destaques
+$auth-card-bg: #ffffff;         // Cor de fundo dos cards de formulário
+$auth-input-border: #d1d5db;    // Cor da borda padrão dos campos de entrada
+$auth-input-focus: #20b2aa;     // Cor da borda quando campo está em foco
 
+// ==========================================
+// CONTAINER PRINCIPAL DE AUTENTICAÇÃO
+// ==========================================
+// Container principal que ocupa toda a tela com gradiente de fundo
 .auth-container {
-  min-height: 100vh;
-  background: linear-gradient(135deg, $auth-primary-color 0%, lighten($auth-primary-color, 10%) 100%);
+  min-height: 100vh;          // Altura mínima de toda a viewport
+  background: linear-gradient(135deg, $auth-primary-color 0%, lighten($auth-primary-color, 10%) 100%); // Gradiente turquesa
 }
 
+// ==========================================
+// SEÇÃO DO FORMULÁRIO DE AUTENTICAÇÃO
+// ==========================================
+// Seção que contém o formulário de login/registro
 .auth-form-section {
-  background-color: $auth-primary-color;
-  padding: 2rem 1rem;
+  background-color: $auth-primary-color; // Fundo com cor primária
+  padding: 2rem 1rem;         // Espaçamento interno padrão
 
+  // Responsividade para dispositivos móveis
   @media (max-width: 575.98px) {
-    padding: 1rem 0.5rem;
+    padding: 1rem 0.5rem;     // Reduz padding em telas pequenas
   }
 
+  // Responsividade para desktop
   @media (min-width: 992px) {
-    padding: 3rem 2rem;
+    padding: 3rem 2rem;       // Aumenta padding em telas grandes
   }
 }
 
+// ==========================================
+// SEÇÃO DA IMAGEM DE AUTENTICAÇÃO
+// ==========================================
+// Seção lateral com imagem decorativa (em layouts de duas colunas)
 .auth-image-section {
-  position: relative;
-  overflow: hidden;
+  position: relative;         // Posicionamento relativo para overlay
+  overflow: hidden;           // Esconde conteúdo que transborda
 
   .auth-image-container {
-    height: 100vh;
-    position: relative;
+    height: 100vh;            // Altura total da viewport
+    position: relative;       // Posicionamento relativo para pseudo-elemento
     
     img {
-      object-fit: cover;
-      object-position: center;
+      object-fit: cover;      // Imagem cobre todo o container mantendo proporção
+      object-position: center; // Centraliza a imagem
     }
     
+    // Overlay colorido sobre a imagem
     &::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: linear-gradient(45deg, rgba($auth-primary-color, 0.1), rgba($auth-primary-color, 0.3));
+      content: '';            // Cria pseudo-elemento vazio
+      position: absolute;     // Posicionamento absoluto sobre a imagem
+      top: 0;                 // Cobre desde o topo
+      left: 0;                // Cobre desde a esquerda
+      right: 0;               // Cobre até a direita
+      bottom: 0;              // Cobre até embaixo
+      background: linear-gradient(45deg, rgba($auth-primary-color, 0.1), rgba($auth-primary-color, 0.3)); // Gradiente semitransparente
     }
   }
 }
 
+// ==========================================
+// CARD DE FORMULÁRIO DE AUTENTICAÇÃO
+// ==========================================
+// Card principal que contém o formulário
 .auth-card {
-  background: $auth-card-bg;
-  border-radius: 20px;
-  padding: 2.5rem;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-  border: none;
+  background: $auth-card-bg;  // Fundo branco
+  border-radius: 20px;        // Bordas bem arredondadas
+  padding: 2.5rem;            // Espaçamento interno generoso
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); // Sombra suave e profunda
+  border: none;               // Remove bordas padrão
 
+  // Responsividade para mobile
   @media (max-width: 575.98px) {
-    padding: 1.5rem 1rem;
-    border-radius: 15px;
+    padding: 1.5rem 1rem;     // Reduz padding
+    border-radius: 15px;      // Reduz arredondamento das bordas
   }
 
+  // Responsividade para tablet
   @media (min-width: 768px) {
-    padding: 3rem 2.5rem;
+    padding: 3rem 2.5rem;     // Aumenta padding em telas médias
   }
 }
 
+// ==========================================
+// TÍTULO DAS PÁGINAS DE AUTENTICAÇÃO
+// ==========================================
+// Título principal (ex: "Entrar", "Cadastrar")
 .auth-title {
-  color: $auth-secondary-color;
-  font-size: 2.5rem;
-  font-weight: bold;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-  margin-bottom: 0;
+  color: $auth-secondary-color; // Cor dourada para destaque
+  font-size: 2.5rem;          // Fonte grande para impacto visual
+  font-weight: bold;          // Peso em negrito
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); // Sombra sutil no texto
+  margin-bottom: 0;           // Remove margem inferior padrão
 
+  // Responsividade para mobile
   @media (max-width: 575.98px) {
-    font-size: 2rem;
+    font-size: 2rem;          // Reduz tamanho da fonte
   }
 
+  // Responsividade para tablet
   @media (min-width: 768px) and (max-width: 991.98px) {
-    font-size: 2.2rem;
+    font-size: 2.2rem;        // Tamanho intermediário para tablets
   }
 
+  // Responsividade para desktop
   @media (min-width: 992px) {
-    font-size: 2.8rem;
+    font-size: 2.8rem;        // Aumenta tamanho em telas grandes
   }
 
-  // Estilo especial para páginas de reset
+  // Estilo especial para páginas de recuperação de senha
   .forgot-password-page &,
   .reset-password-page & {
-    font-size: 2rem;
+    font-size: 2rem;          // Tamanho menor para páginas específicas
     
     @media (min-width: 768px) {
-      font-size: 2.3rem;
+      font-size: 2.3rem;      // Ajuste para telas médias/grandes
     }
   }
 }
 
+// ==========================================
+// FORMULÁRIO DE AUTENTICAÇÃO
+// ==========================================
 .auth-form {
+  // Labels dos campos do formulário
   .form-label {
-    color: #374151;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-    font-size: 0.9rem;
+    color: #374151;           // Cor escura para labels
+    font-weight: 600;         // Peso semi-bold
+    margin-bottom: 0.5rem;    // Espaçamento inferior
+    font-size: 0.9rem;        // Fonte ligeiramente menor
   }
 
+  // Campos de entrada do formulário
   .auth-input {
-    border: 2px solid $auth-input-border;
-    border-radius: 8px;
-    padding: 0.75rem 1rem;
-    font-size: 1rem;
-    transition: all 0.3s ease;
-    background-color: #f9fafb;
+    border: 2px solid $auth-input-border; // Borda padrão cinza
+    border-radius: 8px;       // Bordas arredondadas
+    padding: 0.75rem 1rem;    // Padding interno confortável
+    font-size: 1rem;          // Tamanho de fonte padrão
+    transition: all 0.3s ease; // Transição suave para todas as propriedades
+    background-color: #f9fafb; // Fundo ligeiramente acinzentado
     
+    // Estado de foco (quando campo está selecionado)
     &:focus {
-      border-color: $auth-input-focus;
-      box-shadow: 0 0 0 0.2rem rgba($auth-input-focus, 0.25);
-      background-color: #ffffff;
+      border-color: $auth-input-focus; // Borda turquesa
+      box-shadow: 0 0 0 0.2rem rgba($auth-input-focus, 0.25); // Glow colorido
+      background-color: #ffffff; // Fundo branco quando ativo
     }
     
+    // Estilo do placeholder
     &::placeholder {
-      color: #9ca3af;
+      color: #9ca3af;          // Cor cinza clara
     }
 
-    // Validação de senha
+    // Estado inválido (validação HTML5)
     &:invalid {
-      border-color: #ef4444;
+      border-color: #ef4444;   // Borda vermelha para erro
       
       &:focus {
-        box-shadow: 0 0 0 0.2rem rgba(239, 68, 68, 0.25);
+        box-shadow: 0 0 0 0.2rem rgba(239, 68, 68, 0.25); // Glow vermelho
       }
     }
 
+    // Estado válido (validação HTML5)
     &:valid {
-      &:not(:placeholder-shown) {
-        border-color: #10b981;
+      &:not(:placeholder-shown) { // Apenas quando não está mostrando placeholder
+        border-color: #10b981;  // Borda verde para sucesso
       }
     }
   }
 
+  // Texto de ajuda abaixo dos campos
   .form-text {
-    color: #6b7280;
-    font-size: 0.85rem;
-    margin-top: 0.25rem;
+    color: #6b7280;           // Cor cinza média
+    font-size: 0.85rem;       // Fonte pequena
+    margin-top: 0.25rem;      // Espaçamento superior
 
-    // Para links no form-text
+    // Links dentro do texto de ajuda
     a {
-      color: $auth-input-focus;
-      text-decoration: none;
-      font-weight: 500;
+      color: $auth-input-focus; // Cor turquesa para links
+      text-decoration: none;    // Remove sublinhado padrão
+      font-weight: 500;         // Peso médio
       
       &:hover {
-        text-decoration: underline;
+        text-decoration: underline; // Sublinha no hover
       }
     }
 
-    // Texto de ajuda específico
+    // Texto de ajuda específico para senhas
     &.password-help {
-      text-align: left;
-      color: #6b7280;
+      text-align: left;       // Alinhamento à esquerda
+      color: #6b7280;         // Mantém cor padrão
     }
   }
 }
 
+// ==========================================
+// BOTÕES DE AUTENTICAÇÃO
+// ==========================================
+// Botão principal (entrar, cadastrar, etc.)
 .btn-auth {
-  background-color: $auth-primary-color;
-  border: none;
-  color: white;
-  font-weight: 600;
-  padding: 0.875rem 2rem;
-  border-radius: 10px;
-  font-size: 1rem;
-  transition: all 0.3s ease;
-  text-transform: none;
+  background-color: $auth-primary-color; // Fundo turquesa
+  border: none;               // Remove borda padrão
+  color: white;               // Texto branco
+  font-weight: 600;           // Peso semi-bold
+  padding: 0.875rem 2rem;     // Padding confortável
+  border-radius: 10px;        // Bordas arredondadas
+  font-size: 1rem;            // Fonte padrão
+  transition: all 0.3s ease;  // Transição suave
+  text-transform: none;       // Mantém capitalização original
 
+  // Efeito hover
   &:hover {
-    background-color: darken($auth-primary-color, 8%);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba($auth-primary-color, 0.4);
+    background-color: darken($auth-primary-color, 8%); // Escurece a cor
+    transform: translateY(-2px); // Move para cima
+    box-shadow: 0 4px 12px rgba($auth-primary-color, 0.4); // Adiciona sombra
   }
 
+  // Efeito active (quando pressionado)
   &:active {
-    transform: translateY(0);
+    transform: translateY(0); // Retorna à posição original
   }
 
+  // Estado desabilitado
   &:disabled {
-    background-color: #9ca3af;
-    cursor: not-allowed;
-    transform: none;
-    box-shadow: none;
+    background-color: #9ca3af; // Cor cinza para indicar desabilitado
+    cursor: not-allowed;      // Cursor de "não permitido"
+    transform: none;          // Remove transformações
+    box-shadow: none;         // Remove sombras
   }
 }
 
+// ==========================================
+// LINKS DE AUTENTICAÇÃO
+// ==========================================
+// Links auxiliares (esqueci minha senha, etc.)
 .auth-link {
-  color: #6b7280;
-  font-size: 0.9rem;
+  color: #6b7280;             // Cor cinza média
+  font-size: 0.9rem;          // Fonte ligeiramente menor
 }
 
+// Links de ação (criar conta, fazer login)
 .auth-link-action {
-  color: $auth-primary-color;
-  text-decoration: none;
-  font-weight: 600;
+  color: $auth-primary-color; // Cor turquesa
+  text-decoration: none;      // Remove sublinhado padrão
+  font-weight: 600;           // Peso semi-bold
 
   &:hover {
-    color: darken($auth-primary-color, 10%);
-    text-decoration: underline;
+    color: darken($auth-primary-color, 10%); // Escurece no hover
+    text-decoration: underline; // Adiciona sublinhado
   }
 }
 
-// Estilos específicos para mensagens de sucesso/erro
+// ==========================================
+// MENSAGENS DE ALERTA E FEEDBACK
+// ==========================================
 .alert {
-  border-radius: 8px;
-  border: none;
+  border-radius: 8px;         // Bordas arredondadas
+  border: none;               // Remove borda padrão
   
+  // Alerta de sucesso
   &.alert-success {
-    background-color: #d1fae5;
-    color: #065f46;
-    border-left: 4px solid #10b981;
+    background-color: #d1fae5; // Fundo verde claro
+    color: #065f46;           // Texto verde escuro
+    border-left: 4px solid #10b981; // Borda esquerda verde
   }
   
+  // Alerta de erro
   &.alert-danger {
-    background-color: #fee2e2;
-    color: #991b1b;
-    border-left: 4px solid #ef4444;
+    background-color: #fee2e2; // Fundo vermelho claro
+    color: #991b1b;           // Texto vermelho escuro
+    border-left: 4px solid #ef4444; // Borda esquerda vermelha
   }
 }
 
-// Estilos para ícones de status
+// ==========================================
+// ÍCONES DE STATUS
+// ==========================================
+// Ícones grandes para indicar status (sucesso, erro, aviso)
 .status-icon {
-  font-size: 3rem;
-  margin-bottom: 1rem;
+  font-size: 3rem;            // Tamanho grande para impacto visual
+  margin-bottom: 1rem;        // Espaçamento inferior
   
   &.success {
-    color: #10b981;
+    color: #10b981;           // Verde para sucesso
   }
   
   &.error {
-    color: #ef4444;
+    color: #ef4444;           // Vermelho para erro
   }
   
   &.warning {
-    color: #f59e0b;
+    color: #f59e0b;           // Amarelo para aviso
   }
 }
 
-// Animação para countdown
+// ==========================================
+// ANIMAÇÃO DE COUNTDOWN
+// ==========================================
+// Estilo para contadores regressivos
 .countdown {
-  font-weight: bold;
-  color: $auth-primary-color;
-  animation: pulse 1s infinite;
+  font-weight: bold;          // Texto em negrito
+  color: $auth-primary-color; // Cor turquesa
+  animation: pulse 1s infinite; // Animação pulsante infinita
 }
 
+// Definição da animação de pulso
 @keyframes pulse {
   0% {
-    opacity: 1;
+    opacity: 1;               // Opacidade total
   }
   50% {
-    opacity: 0.7;
+    opacity: 0.7;             // Opacidade reduzida
   }
   100% {
-    opacity: 1;
+    opacity: 1;               // Retorna à opacidade total
   }
 }
 
-// Responsividade adicional
+// ==========================================
+// AJUSTES RESPONSIVOS ESPECÍFICOS
+// ==========================================
 @media (max-width: 575.98px) {
   .auth-container .row {
-    margin: 0;
+    margin: 0;                // Remove margens da row do Bootstrap
   }
 
   .auth-form-section {
-    padding-left: 0;
-    padding-right: 0;
+    padding-left: 0;          // Remove padding lateral
+    padding-right: 0;         // Remove padding lateral
   }
 }
 
+// Centralização do card em páginas de coluna única
 .auth-page .auth-container .col-12 {
   .auth-card {
-    max-width: 500px;
-    margin: 0 auto;
+    max-width: 500px;         // Largura máxima para evitar cards muito largos
+    margin: 0 auto;           // Centraliza horizontalmente
   }
 }
 
-// Estilos para validação de formulário
+// ==========================================
+// VALIDAÇÃO VISUAL DE FORMULÁRIOS
+// ==========================================
+// Estilos aplicados quando formulário tem classe 'was-validated'
 .was-validated {
   .form-control {
+    // Campo válido
     &:valid {
-      border-color: #10b981;
-      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%2310b981' d='m2.3 6.73.04-.04L6.2 2.83c.13-.13.32-.13.45 0s.13.32 0 .45L2.78 7.14c-.13.13-.32.13-.45 0L.46 5.27c-.13-.13-.13-.32 0-.45s.32-.13.45 0l1.83 1.91z'/%3e%3c/svg%3e");
-      background-repeat: no-repeat;
-      background-position: right calc(0.375em + 0.1875rem) center;
-      background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+      border-color: #10b981;  // Borda verde
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%2310b981' d='m2.3 6.73.04-.04L6.2 2.83c.13-.13.32-.13.45 0s.13.32 0 .45L2.78 7.14c-.13.13-.32.13-.45 0L.46 5.27c-.13-.13-.13-.32 0-.45s.32-.13.45 0l1.83 1.91z'/%3e%3c/svg%3e"); // Ícone de check verde
+      background-repeat: no-repeat; // Não repete o ícone
+      background-position: right calc(0.375em + 0.1875rem) center; // Posiciona à direita
+      background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem); // Tamanho do ícone
     }
 
+    // Campo inválido
     &:invalid {
-      border-color: #ef4444;
-      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23ef4444'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath d='m5.8 4.6 2.4 2.4M8.2 4.6l-2.4 2.4'/%3e%3c/svg%3e");
-      background-repeat: no-repeat;
-      background-position: right calc(0.375em + 0.1875rem) center;
-      background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+      border-color: #ef4444;  // Borda vermelha
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23ef4444'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath d='m5.8 4.6 2.4 2.4M8.2 4.6l-2.4 2.4'/%3e%3c/svg%3e"); // Ícone de X vermelho
+      background-repeat: no-repeat; // Não repete o ícone
+      background-position: right calc(0.375em + 0.1875rem) center; // Posiciona à direita
+      background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem); // Tamanho do ícone
     }
   }
 }
