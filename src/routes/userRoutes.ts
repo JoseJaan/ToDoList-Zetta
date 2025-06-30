@@ -9,7 +9,6 @@ const taskController = new TaskController();
 
 router.post(
   '/',
-  upload.single('profileImage'),
   userController.create.bind(userController)
 );
 router.get('/', userController.getAll.bind(userController));
